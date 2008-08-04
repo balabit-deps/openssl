@@ -1,4 +1,4 @@
-openssl-syslog-ng (0.9.8h-2) syslogng30; urgency=low
+openssl (0.9.8h-2.syslogng30) syslogng30; urgency=low
 
   * Simplified the configure part and fixed the prefix,
     now using INSTALL_PREFIX.
