@@ -1,0 +1,47 @@
+#!/usr/bin/make -f
+STAMPDIR=tgz2build/stamps
+
+CONFIGURE = ./config shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+
+ifneq (,$(findstring linux-generic,$(ZBS_DIST)))
+  	ifneq (,$(findstring amd64,$(ZBS_ARCH)))
+		CONFIGURE = ./Configure linux-generic64 shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+  	else
+		CONFIGURE = ./Configure linux-generic32 shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+  	endif
+endif
+
+
+all: binary
+
+binary: setup configure build install
+
+setup: $(STAMPDIR)/stamp-setup
+$(STAMPDIR)/stamp-setup:
+	mkdir tgz2build/stamps || true
+	touch $@
+
+configure: $(STAMPDIR)/stamp-configure
+	$(CONFIGURE)
+	touch $@
+
+$(STAMPDIR)/stamp-configure: setup
+
+build: $(STAMPDIR)/stamp-build
+$(STAMPDIR)/stamp-build: configure
+	$(MAKE)
+	touch $@
+
+
+install:  $(STAMPDIR)/stamp-install
+$(STAMPDIR)/stamp-install: build
+	rm -rf $(ZBS_STAGE_DIR)
+	make install INSTALL_PREFIX=$(ZBS_STAGE_DIR)
+	touch $@ 
+
+clean:
+	rm -rf tgz2build/stamps || true
+	rm -rf tgz2build/staging || true
+	make clean
+
+

@@ -1,0 +1,7 @@
+opt/syslog-ng/lib/libssl.so
+opt/syslog-ng/lib/libcrypto.so
+opt/syslog-ng/lib/libssl.a
+opt/syslog-ng/lib/libcrypto.a
+opt/syslog-ng/lib/pkgconfig
+opt/syslog-ng/include
+opt/syslog-ng/usr/man/man3

@@ -1,0 +1,4 @@
+opt/syslog-ng/lib/*.so.*.*.*
+opt/syslog-ng/lib/*/*.so.*.*.*
+opt/syslog-ng/lib/i686/cmov/*.so.*.*.*
+opt/syslog-ng/lib/ssl/engines
