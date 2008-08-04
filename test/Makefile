@@ -131,7 +131,7 @@ alltests: \
 	test_rand test_bn test_ec test_ecdsa test_ecdh \
 	test_enc test_x509 test_rsa test_crl test_sid \
 	test_gen test_req test_pkcs7 test_verify test_dh test_dsa \
-	test_ss test_ca test_engine test_evp test_ssl test_ige
+	test_ss test_ca test_engine test_evp test_ssl test_ige test_tsa
 
 test_evp:
 	../util/shlib_wrap.sh ./$(EVPTEST) evptests.txt
@@ -286,6 +286,13 @@ test_aes: #$(AESTEST)
 test_ige: $(IGETEST)$(EXE_EXT)
 	@echo "Test IGE mode"
 	../util/shlib_wrap.sh ./$(IGETEST)
+
+test_tsa:
+	@if ../util/shlib_wrap.sh ../apps/openssl no-rsa; then \
+	  echo "skipping testtsa test -- requires RSA"; \
+	else \
+	  sh ./testtsa; \
+	fi
 
 lint:
 	lint -DLINT $(INCLUDES) $(SRC)>fluff

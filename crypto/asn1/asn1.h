@@ -766,6 +766,7 @@ DECLARE_ASN1_FUNCTIONS_fname(ASN1_TYPE, ASN1_ANY, ASN1_TYPE)
 int ASN1_TYPE_get(ASN1_TYPE *a);
 void ASN1_TYPE_set(ASN1_TYPE *a, int type, void *value);
 int ASN1_TYPE_set1(ASN1_TYPE *a, int type, const void *value);
+int ASN1_TYPE_cmp(ASN1_TYPE *a, ASN1_TYPE *b);
 
 ASN1_OBJECT *	ASN1_OBJECT_new(void );
 void		ASN1_OBJECT_free(ASN1_OBJECT *a);
@@ -802,6 +803,10 @@ int		ASN1_BIT_STRING_set(ASN1_BIT_STRING *a, unsigned char *d,
 			int length );
 int		ASN1_BIT_STRING_set_bit(ASN1_BIT_STRING *a, int n, int value);
 int		ASN1_BIT_STRING_get_bit(ASN1_BIT_STRING *a, int n);
+int		ASN1_BIT_STRING_check(ASN1_BIT_STRING *a,
+				      unsigned char *flags, int flags_len);
+/* The following macro helps you create the flag vector for bit string check. */
+#define ASN1_BIT(bit, byte)	((bit)/8 == (byte) ? 1<<(7 - ((bit)&0x07)) : 0)
 
 #ifndef OPENSSL_NO_BIO
 int ASN1_BIT_STRING_name_print(BIO *out, ASN1_BIT_STRING *bs,

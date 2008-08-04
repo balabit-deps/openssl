@@ -1146,6 +1146,8 @@ if ($threads)
 	$cflags=$thread_cflags;
 	$openssl_thread_defines .= $thread_defines;
 	}
+# You will find shlib_mark1 and shlib_mark2 explained in Makefile.org
+my $shared_mark = "";
 
 if ($zlib)
 	{
@@ -1158,10 +1160,9 @@ if ($zlib)
 		{
 		$cflags = "-DZLIB_SHARED $cflags";
 		}
+	$shared_mark = "\$(SHARED_LIBS)";
 	}
 
-# You will find shlib_mark1 and shlib_mark2 explained in Makefile.org
-my $shared_mark = "";
 if ($shared_target eq "")
 	{
 	$no_shared_warn = 1 if !$no_shared;

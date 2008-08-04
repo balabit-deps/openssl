@@ -97,6 +97,8 @@
 #ifndef OPENSSL_NO_CMS
 #include <openssl/cms.h>
 #endif
+#include <openssl/ts.h>
+
 
 void ERR_load_crypto_strings(void)
 	{
@@ -136,6 +138,7 @@ void ERR_load_crypto_strings(void)
 	ERR_load_PKCS12_strings();
 	ERR_load_RAND_strings();
 	ERR_load_DSO_strings();
+	ERR_load_TS_strings();
 #ifndef OPENSSL_NO_ENGINE
 	ERR_load_ENGINE_strings();
 #endif

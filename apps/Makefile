@@ -31,7 +31,7 @@ LIBSSL=-L.. -lssl
 
 PROGRAM= openssl
 
-SCRIPTS=CA.sh CA.pl
+SCRIPTS=CA.sh CA.pl tsget
 
 EXE= $(PROGRAM)$(EXE_EXT)
 
@@ -39,7 +39,7 @@ E_EXE=	verify asn1pars req dgst dh dhparam enc passwd gendh errstr \
 	ca crl rsa rsautl dsa dsaparam ec ecparam \
 	x509 genrsa gendsa s_server s_client speed \
 	s_time version pkcs7 cms crl2pkcs7 sess_id ciphers nseq pkcs12 \
-	pkcs8 spkac smime rand engine ocsp prime
+	pkcs8 spkac smime rand engine ocsp prime ts
 
 PROGS= $(PROGRAM).c
 
@@ -56,7 +56,7 @@ E_OBJ=	verify.o asn1pars.o req.o dgst.o dh.o dhparam.o enc.o passwd.o gendh.o er
 	x509.o genrsa.o gendsa.o s_server.o s_client.o speed.o \
 	s_time.o $(A_OBJ) $(S_OBJ) $(RAND_OBJ) version.o sess_id.o \
 	ciphers.o nseq.o pkcs12.o pkcs8.o spkac.o smime.o rand.o engine.o \
-	ocsp.o prime.o cms.o
+	ocsp.o prime.o cms.o ts.o
 
 E_SRC=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c ca.c \
 	pkcs7.c crl2p7.c crl.c \
@@ -64,7 +64,7 @@ E_SRC=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c ca.
 	x509.c genrsa.c gendsa.c s_server.c s_client.c speed.c \
 	s_time.c $(A_SRC) $(S_SRC) $(RAND_SRC) version.c sess_id.c \
 	ciphers.c nseq.c pkcs12.c pkcs8.c spkac.c smime.c rand.c engine.c \
-	ocsp.c prime.c cms.c
+	ocsp.c prime.c cms.c ts.c
 
 SRC=$(E_SRC)
 
@@ -899,6 +899,23 @@ spkac.o: ../include/openssl/stack.h ../include/openssl/symhacks.h
 spkac.o: ../include/openssl/txt_db.h ../include/openssl/x509.h
 spkac.o: ../include/openssl/x509_vfy.h ../include/openssl/x509v3.h apps.h
 spkac.o: spkac.c
+ts.o: ../e_os.h ../include/openssl/asn1.h ../include/openssl/bio.h
+ts.o: ../include/openssl/buffer.h ../include/openssl/conf.h
+ts.o: ../include/openssl/crypto.h ../include/openssl/dh.h
+ts.o: ../include/openssl/dsa.h ../include/openssl/e_os2.h
+ts.o: ../include/openssl/ec.h ../include/openssl/ecdh.h
+ts.o: ../include/openssl/ecdsa.h ../include/openssl/engine.h
+ts.o: ../include/openssl/err.h ../include/openssl/evp.h
+ts.o: ../include/openssl/lhash.h ../include/openssl/obj_mac.h
+ts.o: ../include/openssl/objects.h ../include/openssl/opensslconf.h
+ts.o: ../include/openssl/opensslv.h ../include/openssl/ossl_typ.h
+ts.o: ../include/openssl/pem.h ../include/openssl/pem2.h
+ts.o: ../include/openssl/pkcs7.h ../include/openssl/rand.h
+ts.o: ../include/openssl/rsa.h ../include/openssl/safestack.h
+ts.o: ../include/openssl/sha.h ../include/openssl/stack.h
+ts.o: ../include/openssl/symhacks.h ../include/openssl/ts.h
+ts.o: ../include/openssl/txt_db.h ../include/openssl/x509.h
+ts.o: ../include/openssl/x509_vfy.h ../include/openssl/x509v3.h apps.h ts.c
 verify.o: ../e_os.h ../include/openssl/asn1.h ../include/openssl/bio.h
 verify.o: ../include/openssl/buffer.h ../include/openssl/conf.h
 verify.o: ../include/openssl/crypto.h ../include/openssl/e_os2.h
