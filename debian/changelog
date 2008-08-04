@@ -1,0 +1,18 @@
+openssl-syslog-ng (0.9.8h-2) syslogng30; urgency=low
+
+  * Simplified the configure part and fixed the prefix,
+    now using INSTALL_PREFIX.
+
+ -- ZorpOS Maintainers <zorpos@balabit.com>  Thu, 31 Jul 2008 14:14:54 +0200
+
+openssl-syslog-ng (0.9.8h-1) unstable; urgency=low
+
+  * Support for multi arctitecture for solaris and linux-generic.
+
+ -- ZorpOS Maintainers <zorpos@balabit.com>  Tue, 29 Jul 2008 13:36:45 +0200
+
+openssl-syslog-ng (0.9.8h) unstable; urgency=low
+
+  * Initial tgz2build package. 
+
+ -- ZorpOS Maintainers <zorpos@balabit.com>  Fri, 18 Jul 2008 15:47:20 +0200
