@@ -10,11 +10,15 @@ ifneq (,$(findstring linux-generic,$(ZBS_DIST)))
 		CONFIGURE = ./Configure linux-generic32 shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
   	endif
 endif
+ifneq (,$(findstring hpux,$(ZBS_DIST)))
+		CONFIGURE = ./Configure hpux-gcc shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+endif
+
 
 
 all: binary
 
-binary: setup configure build install
+binary: $(STAMPDIR)/stamp-setup $(STAMPDIR)/stamp-configure $(STAMPDIR)/stamp-build $(STAMPDIR)/stamp-install
 
 setup: $(STAMPDIR)/stamp-setup
 $(STAMPDIR)/stamp-setup:
@@ -22,21 +26,21 @@ $(STAMPDIR)/stamp-setup:
 	touch $@
 
 configure: $(STAMPDIR)/stamp-configure
+$(STAMPDIR)/stamp-configure: $(STAMPDIR)/stamp-setup
 	$(CONFIGURE)
 	touch $@
 
-$(STAMPDIR)/stamp-configure: setup
-
 build: $(STAMPDIR)/stamp-build
-$(STAMPDIR)/stamp-build: configure
-	$(MAKE)
+$(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
+	if test `uname -s` = "HP-UX"; then $(MAKE) depend && $(MAKE); \
+	else $(MAKE); fi
 	touch $@
 
 
 install:  $(STAMPDIR)/stamp-install
-$(STAMPDIR)/stamp-install: build
+$(STAMPDIR)/stamp-install: $(STAMPDIR)/stamp-build
 	rm -rf $(ZBS_STAGE_DIR)
-	make install INSTALL_PREFIX=$(ZBS_STAGE_DIR)
+	$(MAKE) install INSTALL_PREFIX=$(ZBS_STAGE_DIR)
 	touch $@ 
 
 clean:
