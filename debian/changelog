@@ -1,3 +1,10 @@
+openssl (0.9.8h-3.syslogng30) syslogng30; urgency=low
+
+  * Fixed Packaging for AIX.
+  * Bumped version 0.9.8h-3.syslogng31
+
+ -- Tamas Pal <folti@balabit.com>  Wed, 01 Oct 2008 18:21:56 +0200
+
 openssl (0.9.8h-2.syslogng30) syslogng30; urgency=low
 
   * Simplified the configure part and fixed the prefix,

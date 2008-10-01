@@ -27,6 +27,12 @@ $(STAMPDIR)/stamp-setup:
 
 configure: $(STAMPDIR)/stamp-configure
 $(STAMPDIR)/stamp-configure: $(STAMPDIR)/stamp-setup
+	# Force to use AIX's native ar. GNU ar don't support -X (32|64)
+	# argument, only -X(32|64)
+	if echo $(ZBS_DIST) | grep '^aix' >/dev/null 2>&1;then \
+		sed -e 's%^\(AR=\)ar%\1\/usr\/bin\/ar%' Makefile.org > Makefile.org.aix; \
+		mv Makefile.org.aix Makefile.org; \
+	fi
 	$(CONFIGURE)
 	touch $@
 
@@ -34,6 +40,7 @@ build: $(STAMPDIR)/stamp-build
 $(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
 	if test `uname -s` = "HP-UX"; then $(MAKE) depend && $(MAKE); \
 	else $(MAKE); fi
+
 	touch $@
 
 
@@ -41,6 +48,16 @@ install:  $(STAMPDIR)/stamp-install
 $(STAMPDIR)/stamp-install: $(STAMPDIR)/stamp-build
 	rm -rf $(ZBS_STAGE_DIR)
 	$(MAKE) install INSTALL_PREFIX=$(ZBS_STAGE_DIR)
+	# On aix, pack the .so -s into the .a files.
+	if echo $(ZBS_DIST) | grep '^aix' >/dev/null 2>&1;then \
+		rm -f libcrypto.a libssl.a libcrypto.so libssl.so; \
+		cp libcrypto.so.0.9.8 libcrypto.so; \
+		cp libssl.so.0.9.8 libssl.so; \
+		/usr/bin/ar -q libcrypto.a libcrypto.so.0.9.8 libcrypto.so; \
+		/usr/bin/ar -q libssl.a libssl.so.0.9.8 libssl.so; \
+		chmod 0644 libcrypto.a libssl.a; \
+		cp libcrypto.a libssl.a $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib; \
+	fi
 	touch $@ 
 
 clean:
