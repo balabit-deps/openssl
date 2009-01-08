@@ -1,3 +1,9 @@
+openssl (0.9.8h-4.syslogng30) syslogng30; urgency=low
+
+  * SECURITY UPDATE: Added Ubuntu patch to fix CVE-2008-5077.
+
+ -- Tamas Pal <folti@balabit.com>  Thu, 08 Jan 2009 17:51:32 +0100
+
 openssl (0.9.8h-3.syslogng30) syslogng30; urgency=low
 
   * Fixed Packaging for AIX.
