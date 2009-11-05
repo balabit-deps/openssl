@@ -1,3 +1,15 @@
+openssl (0.9.8h-5.syslogng30) syslogngdeps10; urgency=low
+
+  * Works with syslog-ng-3.1 release system.
+
+ -- Tamas Pal <folti@balabit.com>  Tue, 03 Nov 2009 15:09:40 +0100
+
+openssl (0.9.8h-4.syslogng30) syslogng31; urgency=low
+
+  * SECURITY UPDATE: Added Ubuntu patch to fix CVE-2008-5077.
+
+ -- Tamas Pal <folti@balabit.com>  Thu, 08 Jan 2009 17:51:32 +0100
+
 openssl (0.9.8h-3.syslogng30) syslogng30; urgency=low
 
   * Fixed Packaging for AIX.
