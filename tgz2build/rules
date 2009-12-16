@@ -3,7 +3,7 @@ STAMPDIR=tgz2build/stamps
 
 CONFIGURE = ./config shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
 
-ifneq (,$(findstring linux-generic,$(ZBS_DIST)))
+ifneq (,$(findstring linux-,$(ZBS_DIST)))
   	ifneq (,$(findstring amd64,$(ZBS_ARCH)))
 		CONFIGURE = ./Configure linux-generic64 shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
   	else
