@@ -1,5 +1,6 @@
-#!/bin/sh -e
+#!/bin/sh
 
+set -e
 cmd=$1
 shift
 case "$cmd" in
@@ -20,7 +21,14 @@ case "$cmd" in
     ./Configure $target shared no-idea no-mdc2 no-rc5 $@ --openssldir='${prefix}/usr'
     ;;
   make)
-    make $@
+    args=""
+    for arg in $@; do
+        if [ "$arg" = "check" ]; then
+            arg=""
+        fi
+        args="$args $arg"
+    done
+    make $args
     ;;
   *)
     echo "Unknown command: $cmd"
