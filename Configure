@@ -1307,6 +1307,8 @@ my $shlib_version_history = "unknown";
 my $shlib_major = "unknown";
 my $shlib_minor = "unknown";
 
+$shared_ldflag .= " -Wl,--version-script=openssl.ld";
+
 open(IN,'<crypto/opensslv.h') || die "unable to read opensslv.h:$!\n";
 while (<IN>)
 	{
