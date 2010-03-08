@@ -1,3 +1,9 @@
+openssl (0.9.8h-6.syslogng31) syslogngdeps10; urgency=low
+
+  * Works with syslog-ng-3.1 release system.
+
+ -- Andras Tevesz <ghost@balabit.com>  Mon, 08 Mar 2010 15:15:53 +0100
+
 openssl (0.9.8h-5.syslogng30) syslogngdeps10; urgency=low
 
   * Works with syslog-ng-3.1 release system.
