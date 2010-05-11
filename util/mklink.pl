@@ -50,7 +50,7 @@ foreach $dirname (@from_path) {
 my $to = join('/', @to_path);
 
 my $file;
-$symlink_exists=eval {symlink("",""); 1};
+#$symlink_exists=eval {symlink("",""); 1};
 foreach $file (@files) {
     my $err = "";
     if ($symlink_exists) {

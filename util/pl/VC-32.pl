@@ -7,6 +7,7 @@ $ssl=	"ssleay32";
 $crypto="libeay32";
 
 $o='\\';
+$install_o='/';
 $cp='$(PERL) util/copy.pl';
 $mkdir='$(PERL) util/mkdir-p.pl';
 $rm='del';
@@ -98,9 +99,9 @@ else	# Win32
     $base_cflags.=' -D_CRT_NONSTDC_NO_DEPRECATE';	# shut up VC8
     my $f = $shlib?' /MD':' /MT';
     $lib_cflag='/Zl' if (!$shlib);	# remove /DEFAULTLIBs from static lib
-    $opt_cflags=$f.' /Ox /O2 /Ob2';
+    $opt_cflags=$f.'/Md /Ox /O2 /Ob2 /Zi';
     $dbg_cflags=$f.'d /Od -DDEBUG -D_DEBUG';
-    $lflags="/nologo /subsystem:console /opt:ref";
+    $lflags="/nologo /subsystem:console /opt:ref /subsystem:console /DEBUG /MAP /MAPINFO:EXPORTS";
     }
 $mlflags='';
 

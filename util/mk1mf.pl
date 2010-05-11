@@ -232,6 +232,9 @@ $cflags.=" -DOPENSSL_NO_HW"   if $no_hw;
 $cflags.= " -DZLIB" if $zlib_opt;
 $cflags.= " -DZLIB_SHARED" if $zlib_opt == 2;
 
+if ( ! $install_o ) {
+	$install_o = $o;
+}
 if ($no_static_engine)
 	{
 	$cflags .= " -DOPENSSL_NO_STATIC_ENGINE";
@@ -335,24 +338,24 @@ close(IN);
 if ($shlib)
 	{
 	$extra_install= <<"EOF";
-	\$(CP) \"\$(O_SSL)\" \"\$(INSTALLTOP)${o}bin\"
-	\$(CP) \"\$(O_CRYPTO)\" \"\$(INSTALLTOP)${o}bin\"
-	\$(CP) \"\$(L_SSL)\" \"\$(INSTALLTOP)${o}lib\"
-	\$(CP) \"\$(L_CRYPTO)\" \"\$(INSTALLTOP)${o}lib\"
+	\$(CP) \$(O_SSL) \$(INSTALLTOP)${install_o}bin
+	\$(CP) \$(O_CRYPTO) \$(INSTALLTOP)${install_o}bin
+	\$(CP) \$(L_SSL) \$(INSTALLTOP)${install_o}lib
+	\$(CP) \$(L_CRYPTO) \$(INSTALLTOP)${install_o}lib
 EOF
 	if ($no_static_engine)
 		{
 		$extra_install .= <<"EOF"
-	\$(MKDIR) \"\$(INSTALLTOP)${o}lib${o}engines\"
-	\$(CP) \"\$(E_SHLIB)\" \"\$(INSTALLTOP)${o}lib${o}engines\"
+		\$(MKDIR) \$(INSTALLTOP)${install_o}lib${install_o}engines
+		\$(CP) \$(E_SHLIB) \$(INSTALLTOP)${install_o}lib${install_o}engines
 EOF
 		}
 	}
 else
 	{
 	$extra_install= <<"EOF";
-	\$(CP) \"\$(O_SSL)\" \"\$(INSTALLTOP)${o}lib\"
-	\$(CP) \"\$(O_CRYPTO)\" \"\$(INSTALLTOP)${o}lib\"
+	\$(CP) \$(O_SSL) \$(INSTALLTOP)${install_o}lib
+	\$(CP) \$(O_CRYPTO) \$(INSTALLTOP)${install_o}lib
 EOF
 	$ex_libs .= " $zlib_lib" if $zlib_opt == 1;
 	}
@@ -429,7 +432,7 @@ OUT_D=$out_dir
 TMP_D=$tmp_dir
 # The output directory for the header files
 INC_D=$inc_dir
-INCO_D=$inc_dir${o}openssl
+INCO_D=$inc_dir${install_o}openssl
 
 PERL=$perl
 CP=$cp
@@ -519,14 +522,14 @@ lib: \$(LIBS_DEP) \$(E_SHLIB)
 exe: \$(T_EXE) \$(BIN_D)$o\$(E_EXE)$exep
 
 install: all
-	\$(MKDIR) \"\$(INSTALLTOP)\"
-	\$(MKDIR) \"\$(INSTALLTOP)${o}bin\"
-	\$(MKDIR) \"\$(INSTALLTOP)${o}include\"
-	\$(MKDIR) \"\$(INSTALLTOP)${o}include${o}openssl\"
-	\$(MKDIR) \"\$(INSTALLTOP)${o}lib\"
-	\$(CP) \"\$(INCO_D)${o}*.\[ch\]\" \"\$(INSTALLTOP)${o}include${o}openssl\"
-	\$(CP) \"\$(BIN_D)$o\$(E_EXE)$exep\" \"\$(INSTALLTOP)${o}bin\"
-	\$(CP) \"apps${o}openssl.cnf\" \"\$(INSTALLTOP)\"
+	\$(MKDIR) \$(INSTALLTOP)${install_o}bin
+	\$(MKDIR) \$(INSTALLTOP)${install_o}include
+	\$(MKDIR) \$(INSTALLTOP)${install_o}include${install_o}openssl
+	\$(MKDIR) \$(INSTALLTOP)${install_o}lib
+	\$(CP) \$(INCO_D)${install_o}*.\[ch\] \$(INSTALLTOP)${install_o}include${install_o}openssl
+	\$(CP) \$(BIN_D)$install_o\$(E_EXE)$exep \$(INSTALLTOP)${install_o}bin
+	\$(CP) apps${install_o}openssl.cnf \$(INSTALLTOP)
+  $extra_install
 $extra_install
 
 
