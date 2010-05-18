@@ -14,7 +14,18 @@ ifneq (,$(findstring hpux,$(ZBS_DIST)))
 		CONFIGURE = ./Configure hpux-gcc shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
 endif
 
+RPATH=-Wl,-R/opt/syslog-ng/lib
+ifneq (,$(findstring aix,$(ZBS_DIST)))
+  RPATH=-Wl,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib
+endif
 
+ifneq (,$(findstring hpux,$(ZBS_DIST)))
+  RPATH=-Wl,+b/opt/syslog-ng/lib
+endif
+
+ifneq (,$(findstring tru64,$(ZBS_DIST)))
+RPATH=-Wl,-rpath,/opt/syslog-ng/lib
+endif
 
 all: binary
 
@@ -34,12 +45,15 @@ $(STAMPDIR)/stamp-configure: $(STAMPDIR)/stamp-setup
 		mv Makefile.org.aix Makefile.org; \
 	fi
 	$(CONFIGURE)
+	$(MAKE) links
 	touch $@
 
 build: $(STAMPDIR)/stamp-build
 $(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
-	if test `uname -s` = "HP-UX"; then $(MAKE) depend && $(MAKE); \
-	else $(MAKE); fi
+	$(MAKE) depend
+	# need to do this way, because we don't have any other way to pass rpath settings, without munging the Configure script.
+	SHARED_LDFLAGS=`sed -n -e 's/^SHARED_LDFLAGS[^=]*=//p' Makefile`; \
+	$(MAKE) SHARED_LDFLAGS="$$SHARED_LDFLAGS $(RPATH)"
 
 	touch $@
 
