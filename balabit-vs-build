@@ -77,13 +77,11 @@ case "$cmd" in
     ;;
   make)
   set -x
-    if [ -z "$1" ]; then
-      if [ "$ZBS_BUILDER_TYPE" = "win2" ]; then
       # kill variables declared by unix make with contents incompatible by nmake.
         unset MAKE
         unset MAKEFLAGS
         unset MAKEDIR
-      fi
+    if [ -z "$1" ]; then
       nmake -nologo -f ms/ntdll.mak
       make libssl.pc libcrypto.pc openssl.pc
     else
