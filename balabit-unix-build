@@ -19,6 +19,8 @@ case "$cmd" in
       target="debug-linux-generic32"
     fi
     ./Configure $target shared no-idea no-mdc2 no-rc5 $@ --openssldir='${prefix}/usr'
+    make links
+    make depend
     ;;
   make)
     args=""
