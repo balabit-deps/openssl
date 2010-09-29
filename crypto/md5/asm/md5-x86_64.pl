@@ -105,7 +105,8 @@ EOF
 }
 
 my $output = shift;
-open STDOUT,"| $^X ../perlasm/x86_64-xlate.pl $output";
+print "bzzzzertk\n";
+open OUTPUT,"| $^X ../perlasm/x86_64-xlate.pl $output" || die "can't redirect output: $!\n";
 
 $code .= <<EOF;
 .text
@@ -240,6 +241,8 @@ $code .= <<EOF;
 .size md5_block_asm_data_order,.-md5_block_asm_data_order
 EOF
 
-print $code;
+print OUTPUT $code;
 
-close STDOUT;
+close OUTPUT;
+
+print "bzzzzertk\n";
