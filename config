@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x
 #
 # OpenSSL config: determine the operating system and run ./Configure
 #
