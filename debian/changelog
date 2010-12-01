@@ -1,3 +1,9 @@
+openssl (0.9.8h-6.syslogng32.1.1) syslogngdeps20security; urgency=low
+
+  * SECURITY UPDATE: CVE-2010-3864 fix
+
+ -- Tamas SZERB <toma@balabit.com>  Wed, 01 Dec 2010 11:43:47 +0100
+
 openssl (0.9.8h-6.syslogng32.1) syslogngdeps20; urgency=low
 
   * MD5 amd64 assembly code generator now works.
