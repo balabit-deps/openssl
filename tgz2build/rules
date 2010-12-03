@@ -14,6 +14,12 @@ ifneq (,$(findstring hpux,$(ZBS_DIST)))
 		CONFIGURE = ./Configure hpux-gcc shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
 endif
 
+ifneq (,$(findstring solaris-,$(ZBS_DIST)))
+ifneq (,$(findstring sparc64,$(ZBS_ARCH)))
+		CONFIGURE = ./Configure solaris64-sparcv9-gcc shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+endif
+endif
+
 RPATH=-Wl,-R/opt/syslog-ng/lib
 ifneq (,$(findstring aix,$(ZBS_DIST)))
   RPATH=-Wl,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib,-bnoquiet,-bnoentry
