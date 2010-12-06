@@ -1,6 +1,6 @@
 openssl (0.9.8h-6.syslogng32.1.1) syslogngdeps20security; urgency=low
 
-  * SECURITY UPDATE: CVE-2010-3864 fix
+  * SECURITY UPDATE: CVE-2010-3864 fix, CVE-2010-0740
 
  -- Tamas SZERB <toma@balabit.com>  Wed, 01 Dec 2010 11:43:47 +0100
 
