@@ -1,3 +1,9 @@
+openssl (0.9.8h-6.syslogng32.1.2) syslogngdeps20security; urgency=low
+
+  * Fixed CVE-2009-3245
+
+ -- Emese Revfy <ganesa@balabit.hu>  Mon, 13 Dec 2010 10:00:00 +0200
+
 openssl (0.9.8h-6.syslogng32.1.1) syslogngdeps20security; urgency=low
 
   * SECURITY UPDATE: CVE-2010-3864 fix, CVE-2010-0740
