@@ -4,6 +4,10 @@ openssl (0.9.8h-6.syslogng32.1.2) syslogngdeps20security; urgency=low
   * Fix for CVE-2010-0433 where some kerberos enabled versions of OpenSSL
     could be crashed if the relevant tables were not present (e.g. chrooted).
     [Tomas Hoger <thoger@redhat.com>]
+  * Reject UniversalString and BMPString types with invalid lengths. This
+    prevents a crash in ASN1_STRING_print_ex() which assumes the strings have
+    a legal length. (CVE-2009-0590)
+    [Steve Henson]
 
  -- Emese Revfy <ganesa@balabit.hu>  Mon, 13 Dec 2010 10:00:00 +0200
 
