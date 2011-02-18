@@ -184,6 +184,9 @@ SSL_CTX_callback_ctrl(ssl,SSL_CTRL_SET_TLSEXT_TICKET_KEY_CB,(void (*)(void))cb)
 
 #endif
 
+/* Temporary extension type */
+#define TLSEXT_TYPE_renegotiate                 0xff01
+
 /* Additional TLS ciphersuites from draft-ietf-tls-56-bit-ciphersuites-00.txt
  * (available if TLS1_ALLOW_EXPERIMENTAL_CIPHERSUITES is defined, see
  * s3_lib.c).  We actually treat them like SSL 3.0 ciphers, which we probably

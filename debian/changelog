@@ -1,4 +1,4 @@
-openssl (0.9.8h-6.syslogng32.1.4) syslogngdeps20security; urgency=low
+openssl (0.9.8h-6.syslogng32.1.4) syslogngdeps20; urgency=low
 
   * Fixed CVE-2010-4180
     Disable code workaround for ancient and obsolete Netscape browsers

@@ -859,6 +859,17 @@ int ssl3_get_server_hello(SSL *s)
 			}
 		}
 #endif
+	/* TLS extensions - we parse renegotiate extension only */
+	if (s->version >= SSL3_VERSION)
+		{
+		if (!ssl_parse_serverhello_tlsext(s,&p,d,n, &al))
+			{
+			/* 'al' set by ssl_parse_serverhello_tlsext */
+			SSLerr(SSL_F_SSL3_GET_SERVER_HELLO,SSL_R_PARSE_TLSEXT);
+			goto f_err; 
+			}
+		}
+
 
 
 	if (p != (d+n))
