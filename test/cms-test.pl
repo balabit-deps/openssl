@@ -416,7 +416,7 @@ sub run_smime_tests {
 
 sub cmp_files {
     my ( $f1, $f2 ) = @_;
-    my ( $fp1, $fp2 );
+    my ( $fp1, $fp2 ) = ("tmp1", "tmp2");
 
     my ( $rd1, $rd2 );
 
