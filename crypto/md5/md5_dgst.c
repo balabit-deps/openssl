@@ -72,13 +72,11 @@ const char MD5_version[]="MD5" OPENSSL_VERSION_PTEXT;
 
 int MD5_Init(MD5_CTX *c)
 	{
+	memset (c,0,sizeof(*c));
 	c->A=INIT_DATA_A;
 	c->B=INIT_DATA_B;
 	c->C=INIT_DATA_C;
 	c->D=INIT_DATA_D;
-	c->Nl=0;
-	c->Nh=0;
-	c->num=0;
 	return 1;
 	}
 

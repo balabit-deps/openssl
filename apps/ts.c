@@ -65,6 +65,7 @@
 #include <openssl/pem.h>
 #include <openssl/rand.h>
 #include <openssl/ts.h>
+#include <openssl/bn.h>
 
 #undef PROG
 #define PROG	ts_main
@@ -118,6 +119,7 @@ static X509_STORE *create_cert_store(char *ca_path, char *ca_file);
 static int MS_CALLBACK verify_cb(int ok, X509_STORE_CTX *ctx);
 
 /* Main function definition. */
+int MAIN(int, char **);
 
 int MAIN(int argc, char **argv)
 	{
@@ -162,6 +164,9 @@ int MAIN(int argc, char **argv)
 		free_bio_err = 1;
 		BIO_set_fp(bio_err, stderr, BIO_NOCLOSE | BIO_FP_TEXT);
 		}
+
+	if (!load_config(bio_err, NULL))
+		goto cleanup;
 
 	for (argc--, argv++; argc > 0; argc--, argv++)
 		{
@@ -596,6 +601,8 @@ static int create_digest(BIO *input, char *digest, const EVP_MD *md,
 	int md_value_len;
 
 	md_value_len = EVP_MD_size(md);
+	if (md_value_len < 0)
+	    goto err;
 	if (input)
 		{
 		/* Digest must be computed from an input file. */
@@ -642,7 +649,7 @@ static ASN1_INTEGER *create_nonce(int bits)
 
 	/* Generating random byte sequence. */
 	if (len > (int)sizeof(buf)) goto err;
-	if (!RAND_bytes(buf, len)) goto err;
+	if (RAND_bytes(buf, len) <= 0) goto err;
 
 	/* Find the first non-zero byte and creating ASN1_INTEGER object. */
 	for (i = 0; i < len && !buf[i]; ++i);
@@ -811,9 +818,10 @@ static TS_RESP *create_response(CONF *conf, const char *section, char *engine,
 
 	/* Setting serial number provider callback. */
 	if (!TS_CONF_set_serial(conf, section, serial_cb, resp_ctx)) goto end;
-
+#ifndef OPENSSL_NO_ENGINE
 	/* Setting default OpenSSL engine. */
 	if (!TS_CONF_set_crypto_device(conf, section, engine)) goto end;
+#endif
 
 	/* Setting TSA signer certificate. */
 	if (!TS_CONF_set_signer_cert(conf, section, signer, resp_ctx)) goto end;
@@ -1040,6 +1048,8 @@ static TS_VERIFY_CTX *create_verify_ctx(char *data, char *digest,
 		if (!(request = d2i_TS_REQ_bio(input, NULL))) goto err;
 		if (!(ctx = TS_REQ_to_TS_VERIFY_CTX(request, NULL))) goto err;
 		}
+	else
+		return NULL;
 
 	/* Add the signature verification flag and arguments. */
 	ctx->flags |= TS_VFY_SIGNATURE;
@@ -1073,7 +1083,7 @@ static X509_STORE *create_cert_store(char *ca_path, char *ca_file)
 	cert_ctx = X509_STORE_new();
 
 	/* Setting the callback for certificate chain verification. */
-	X509_STORE_set_verify_cb_func(cert_ctx, verify_cb);
+	X509_STORE_set_verify_cb(cert_ctx, verify_cb);
 
 	/* Adding a trusted certificate directory source. */
 	if (ca_path)

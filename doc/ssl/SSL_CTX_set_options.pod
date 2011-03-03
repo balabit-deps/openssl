@@ -18,6 +18,8 @@ SSL_CTX_set_options, SSL_set_options, SSL_CTX_clear_options, SSL_clear_options, 
  long SSL_get_options(SSL *ssl);
  long SSL_get_secure_renegotiation_support(SSL *ssl);
 
+ long SSL_get_secure_renegotiation_support(SSL *ssl);
+
 =head1 DESCRIPTION
 
 Note: all these functions are implemented using macros.
@@ -204,6 +206,14 @@ When performing renegotiation as a server, always start a new session
 (i.e., session resumption requests are only accepted in the initial
 handshake). This option is not needed for clients.
 
+=item SSL_OP_NO_TICKET
+
+Normally clients and servers will, where possible, transparently make use
+of RFC4507bis tickets for stateless session resumption.
+
+If this option is set this functionality is disabled and tickets will
+not be used by clients or servers.
+
 =item SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION
 
 Allow legacy insecure renegotiation between OpenSSL and unpatched clients or
@@ -214,15 +224,6 @@ servers. See the B<SECURE RENEGOTIATION> section for more details.
 Allow legacy insecure renegotiation between OpenSSL and unpatched servers
 B<only>: this option is currently set by default. See the
 B<SECURE RENEGOTIATION> section for more details.
-
-=item SSL_OP_NO_TICKET
-
-Normally clients and servers will, where possible, transparently make use
-of RFC4507bis tickets for stateless session resumption if extension support
-is explicitly set when OpenSSL is compiled.
-
-If this option is set this functionality is disabled and tickets will
-not be used by clients or servers.
 
 =back
 
@@ -301,7 +302,6 @@ renegotiation between OpenSSL clients and unpatched servers B<only>, while
 B<SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION> allows initial connections
 and renegotiation between OpenSSL and unpatched clients or servers.
 
-
 =head1 RETURN VALUES
 
 SSL_CTX_set_options() and SSL_set_options() return the new options bitmask
@@ -315,6 +315,7 @@ SSL_CTX_get_options() and SSL_get_options() return the current bitmask.
 SSL_get_secure_renegotiation_support() returns 1 is the peer supports
 secure renegotiation and 0 if it does not.
 
+=head1 SEE ALSO
 
 L<ssl(3)|ssl(3)>, L<SSL_new(3)|SSL_new(3)>, L<SSL_clear(3)|SSL_clear(3)>,
 L<SSL_CTX_set_tmp_dh_callback(3)|SSL_CTX_set_tmp_dh_callback(3)>,

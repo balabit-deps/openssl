@@ -265,7 +265,7 @@ instead of DER. (Optional)
 
 =item B<-engine> id
 
-Specifying an engine (by it's unique B<id> string) will cause B<ts>
+Specifying an engine (by its unique B<id> string) will cause B<ts>
 to attempt to obtain a functional reference to the specified engine,
 thus initialising it if needed. The engine will then be set as the default
 for all available algorithms. Default is builtin. (Optional)
@@ -337,7 +337,7 @@ all intermediate CA certificates unless the response includes them.
 =head1 CONFIGURATION FILE OPTIONS
 
 The B<-query> and B<-reply> commands make use of a configuration file
-defined by the B<OPENSSL_CONF> environment variable. See L<config(5)|config(5>
+defined by the B<OPENSSL_CONF> environment variable. See L<config(5)|config(5)>
 for a general description of the syntax of the config file. The
 B<-query> command uses only the symbolic OID names section
 and it can work without it. However, the B<-reply> command needs the
@@ -370,7 +370,7 @@ See L<ca(1)|ca(1)> for description. (Optional)
 
 The name of the file containing the hexadecimal serial number of the
 last time stamp response created. This number is incremented by 1 for
-each response. If the file does not exit at the time of response
+each response. If the file does not exist at the time of response
 generation a new file is created with serial number 1. (Mandatory)
 
 =item B<crypto_device>
@@ -583,24 +583,7 @@ test/testtsa).
 
 =head1 AUTHOR
 
-=over 4
-
-=item * This patch kit was written by Zoltan Glozik
-<zglozik@opentsa.org> for the OpenTSA project. See
-http://www.opentsa.org/.
-
-=item * This product includes software developed by the OpenSSL
-Project for use in the OpenSSL Toolkit (http://www.OpenSSL.org/).
-
-=item * This product includes cryptographic software written by Eric
-Young (eay@cryptsoft.com).
-
-=item * This product includes software written by Tim Hudson
-(tjh@cryptsoft.com).
-
-=back
-
-=cut
+Zoltan Glozik <zglozik@opentsa.org>, OpenTSA project (http://www.opentsa.org)
 
 =head1 SEE ALSO
 

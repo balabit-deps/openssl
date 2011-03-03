@@ -124,14 +124,12 @@ void sha1_block_data_order (SHA_CTX *c, const void *p,size_t num);
 
 int HASH_INIT (SHA_CTX *c)
 	{
+	memset (c,0,sizeof(*c));
 	c->h0=INIT_DATA_h0;
 	c->h1=INIT_DATA_h1;
 	c->h2=INIT_DATA_h2;
 	c->h3=INIT_DATA_h3;
 	c->h4=INIT_DATA_h4;
-	c->Nl=0;
-	c->Nh=0;
-	c->num=0;
 	return 1;
 	}
 

@@ -3,7 +3,7 @@
  * project 2003.
  */
 /* ====================================================================
- * Copyright (c) 2001 The OpenSSL Project.  All rights reserved.
+ * Copyright (c) 2006 The OpenSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -56,7 +56,6 @@
  *
  */
 
-#include <assert.h>
 #include "cryptlib.h"
 #include <openssl/objects.h>
 #include <openssl/ts.h>
@@ -74,7 +73,7 @@ TS_VERIFY_CTX *TS_VERIFY_CTX_new(void)
 
 void TS_VERIFY_CTX_init(TS_VERIFY_CTX *ctx)
 	{
-	assert(ctx != NULL);
+	OPENSSL_assert(ctx != NULL);
 	memset(ctx, 0, sizeof(TS_VERIFY_CTX));
 	}
 
@@ -114,9 +113,9 @@ TS_VERIFY_CTX *TS_REQ_to_TS_VERIFY_CTX(TS_REQ *req, TS_VERIFY_CTX *ctx)
 	TS_MSG_IMPRINT *imprint;
 	X509_ALGOR *md_alg;
 	ASN1_OCTET_STRING *msg;
-	ASN1_INTEGER *nonce;
+	const ASN1_INTEGER *nonce;
 
-	assert(req != NULL);
+	OPENSSL_assert(req != NULL);
 	if (ret)
 		TS_VERIFY_CTX_cleanup(ret);
 	else

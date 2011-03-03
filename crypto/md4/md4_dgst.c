@@ -72,13 +72,11 @@ const char MD4_version[]="MD4" OPENSSL_VERSION_PTEXT;
 
 int MD4_Init(MD4_CTX *c)
 	{
+	memset (c,0,sizeof(*c));
 	c->A=INIT_DATA_A;
 	c->B=INIT_DATA_B;
 	c->C=INIT_DATA_C;
 	c->D=INIT_DATA_D;
-	c->Nl=0;
-	c->Nh=0;
-	c->num=0;
 	return 1;
 	}
 

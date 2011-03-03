@@ -3,7 +3,7 @@
  * project 2002.
  */
 /* ====================================================================
- * Copyright (c) 2001 The OpenSSL Project.  All rights reserved.
+ * Copyright (c) 2006 The OpenSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -58,8 +58,12 @@
 
 #include <string.h>
 
+#include <openssl/crypto.h>
+#include "cryptlib.h"
 #include <openssl/pem.h>
+#ifndef OPENSSL_NO_ENGINE
 #include <openssl/engine.h>
+#endif
 #include <openssl/ts.h>
 
 /* Macro definitions for the configuration file. */
@@ -183,6 +187,8 @@ int TS_CONF_set_serial(CONF *conf, const char *section, TS_serial_cb cb,
 	return ret;
 	}
 
+#ifndef OPENSSL_NO_ENGINE
+
 int TS_CONF_set_crypto_device(CONF *conf, const char *section,
 			      const char *device)
 	{
@@ -227,6 +233,8 @@ int TS_CONF_set_default_engine(const char *name)
 	if (e) ENGINE_free(e);
 	return ret;
 	}
+
+#endif
 
 int TS_CONF_set_signer_cert(CONF *conf, const char *section,
 			    const char *cert, TS_RESP_CTX *ctx)

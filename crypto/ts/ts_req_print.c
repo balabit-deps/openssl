@@ -3,7 +3,7 @@
  * project 2002.
  */
 /* ====================================================================
- * Copyright (c) 2001 The OpenSSL Project.  All rights reserved.
+ * Copyright (c) 2006 The OpenSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -69,12 +69,12 @@ int TS_REQ_print_bio(BIO *bio, TS_REQ *a)
 	{
 	int v;
 	ASN1_OBJECT *policy_id;
-	ASN1_INTEGER *nonce;
+	const ASN1_INTEGER *nonce;
 
 	if (a == NULL) return 0;
 
 	v = TS_REQ_get_version(a);
-	BIO_printf(bio, "Version: %ld\n", v);
+	BIO_printf(bio, "Version: %d\n", v);
 
 	TS_MSG_IMPRINT_print_bio(bio, TS_REQ_get_msg_imprint(a));
 

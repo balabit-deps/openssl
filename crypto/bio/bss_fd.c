@@ -60,6 +60,13 @@
 #include <errno.h>
 #define USE_SOCKETS
 #include "cryptlib.h"
+
+#if defined(OPENSSL_NO_POSIX_IO)
+/*
+ * One can argue that one should implement dummy placeholder for
+ * BIO_s_fd here...
+ */
+#else
 /*
  * As for unconditional usage of "UPLINK" interface in this module.
  * Trouble is that unlike Unix file descriptors [which are indexes
@@ -309,3 +316,4 @@ int BIO_fd_non_fatal_error(int err)
 		}
 	return(0);
 	}
+#endif

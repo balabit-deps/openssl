@@ -290,4 +290,3 @@ int ssl_parse_serverhello_renegotiate_ext(SSL *s, unsigned char *d, int len,
 
     return 1;
     }
-

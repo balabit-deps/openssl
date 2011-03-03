@@ -399,7 +399,7 @@ COMP_METHOD *COMP_zlib(void)
 			if (zlib_stateful_ex_idx == -1)
 				zlib_stateful_ex_idx =
 					CRYPTO_get_ex_new_index(CRYPTO_EX_INDEX_COMP,
-                        0,NULL,NULL,NULL,NULL);
+						0,NULL,NULL,NULL,NULL);
 			CRYPTO_w_unlock(CRYPTO_LOCK_COMP);
 			if (zlib_stateful_ex_idx == -1)
 				goto err;
@@ -724,6 +724,7 @@ static long bio_zlib_ctrl(BIO *b, int cmd, long num, void *ptr)
 	case BIO_CTRL_RESET:
 		ctx->ocount = 0;
 		ctx->odone = 0;
+		ret = 1;
 		break;
 
 	case BIO_CTRL_FLUSH:
@@ -768,7 +769,7 @@ static long bio_zlib_ctrl(BIO *b, int cmd, long num, void *ptr)
 				}
 			ctx->obufsize = obs;
 			}
-
+		ret = 1;
 		break;
 
 	case BIO_C_DO_STATE_MACHINE:

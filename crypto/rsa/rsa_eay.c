@@ -150,16 +150,6 @@ const RSA_METHOD *RSA_PKCS1_SSLeay(void)
 	return(&rsa_pkcs1_eay_meth);
 	}
 
-/* Usage example;
- *    MONT_HELPER(rsa->_method_mod_p, bn_ctx, rsa->p, rsa->flags & RSA_FLAG_CACHE_PRIVATE, goto err);
- */
-#define MONT_HELPER(method_mod, ctx, m, pre_cond, err_instr) \
-	if ((pre_cond) && ((method_mod) == NULL) && \
-			!BN_MONT_CTX_set_locked(&(method_mod), \
-				CRYPTO_LOCK_RSA, \
-				(m), (ctx))) \
-		err_instr
-
 static int RSA_eay_public_encrypt(int flen, const unsigned char *from,
 	     unsigned char *to, RSA *rsa, int padding)
 	{
@@ -233,7 +223,9 @@ static int RSA_eay_public_encrypt(int flen, const unsigned char *from,
 		goto err;
 		}
 
-	MONT_HELPER(rsa->_method_mod_n, ctx, rsa->n, rsa->flags & RSA_FLAG_CACHE_PUBLIC, goto err);
+	if (rsa->flags & RSA_FLAG_CACHE_PUBLIC)
+		if (!BN_MONT_CTX_set_locked(&rsa->_method_mod_n, CRYPTO_LOCK_RSA, rsa->n, ctx))
+			goto err;
 
 	if (!rsa->meth->bn_mod_exp(ret,f,rsa->e,rsa->n,ctx,
 		rsa->_method_mod_n)) goto err;
@@ -264,6 +256,7 @@ static BN_BLINDING *rsa_get_blinding(RSA *rsa, int *local, BN_CTX *ctx)
 {
 	BN_BLINDING *ret;
 	int got_write_lock = 0;
+	CRYPTO_THREADID cur;
 
 	CRYPTO_r_lock(CRYPTO_LOCK_RSA);
 
@@ -281,7 +274,8 @@ static BN_BLINDING *rsa_get_blinding(RSA *rsa, int *local, BN_CTX *ctx)
 	if (ret == NULL)
 		goto err;
 
-	if (BN_BLINDING_get_thread_id(ret) == CRYPTO_thread_id())
+	CRYPTO_THREADID_current(&cur);
+	if (!CRYPTO_THREADID_cmp(&cur, BN_BLINDING_thread_id(ret)))
 		{
 		/* rsa->blinding is ours! */
 
@@ -438,7 +432,9 @@ static int RSA_eay_private_encrypt(int flen, const unsigned char *from,
 		else
 			d= rsa->d;
 
-		MONT_HELPER(rsa->_method_mod_n, ctx, rsa->n, rsa->flags & RSA_FLAG_CACHE_PUBLIC, goto err);
+		if (rsa->flags & RSA_FLAG_CACHE_PUBLIC)
+			if(!BN_MONT_CTX_set_locked(&rsa->_method_mod_n, CRYPTO_LOCK_RSA, rsa->n, ctx))
+				goto err;
 
 		if (!rsa->meth->bn_mod_exp(ret,f,d,rsa->n,ctx,
 				rsa->_method_mod_n)) goto err;
@@ -559,7 +555,9 @@ static int RSA_eay_private_decrypt(int flen, const unsigned char *from,
 		else
 			d = rsa->d;
 
-		MONT_HELPER(rsa->_method_mod_n, ctx, rsa->n, rsa->flags & RSA_FLAG_CACHE_PUBLIC, goto err);
+		if (rsa->flags & RSA_FLAG_CACHE_PUBLIC)
+			if (!BN_MONT_CTX_set_locked(&rsa->_method_mod_n, CRYPTO_LOCK_RSA, rsa->n, ctx))
+				goto err;
 		if (!rsa->meth->bn_mod_exp(ret,f,d,rsa->n,ctx,
 				rsa->_method_mod_n))
 		  goto err;
@@ -669,13 +667,15 @@ static int RSA_eay_public_decrypt(int flen, const unsigned char *from,
 		goto err;
 		}
 
-	MONT_HELPER(rsa->_method_mod_n, ctx, rsa->n, rsa->flags & RSA_FLAG_CACHE_PUBLIC, goto err);
+	if (rsa->flags & RSA_FLAG_CACHE_PUBLIC)
+		if (!BN_MONT_CTX_set_locked(&rsa->_method_mod_n, CRYPTO_LOCK_RSA, rsa->n, ctx))
+			goto err;
 
 	if (!rsa->meth->bn_mod_exp(ret,f,rsa->e,rsa->n,ctx,
 		rsa->_method_mod_n)) goto err;
 
 	if ((padding == RSA_X931_PADDING) && ((ret->d[0] & 0xf) != 12))
-		BN_sub(ret, rsa->n, ret);
+		if (!BN_sub(ret, rsa->n, ret)) goto err;
 
 	p=buf;
 	i=BN_bn2bin(ret,p);
@@ -747,11 +747,18 @@ static int RSA_eay_mod_exp(BIGNUM *r0, const BIGNUM *I, RSA *rsa, BN_CTX *ctx)
 			q = rsa->q;
 			}
 
-		MONT_HELPER(rsa->_method_mod_p, ctx, p, rsa->flags & RSA_FLAG_CACHE_PRIVATE, goto err);
-		MONT_HELPER(rsa->_method_mod_q, ctx, q, rsa->flags & RSA_FLAG_CACHE_PRIVATE, goto err);
+		if (rsa->flags & RSA_FLAG_CACHE_PRIVATE)
+			{
+			if (!BN_MONT_CTX_set_locked(&rsa->_method_mod_p, CRYPTO_LOCK_RSA, p, ctx))
+				goto err;
+			if (!BN_MONT_CTX_set_locked(&rsa->_method_mod_q, CRYPTO_LOCK_RSA, q, ctx))
+				goto err;
+			}
 	}
 
-	MONT_HELPER(rsa->_method_mod_n, ctx, rsa->n, rsa->flags & RSA_FLAG_CACHE_PUBLIC, goto err);
+	if (rsa->flags & RSA_FLAG_CACHE_PUBLIC)
+		if (!BN_MONT_CTX_set_locked(&rsa->_method_mod_n, CRYPTO_LOCK_RSA, rsa->n, ctx))
+			goto err;
 
 	/* compute I mod q */
 	if (!(rsa->flags & RSA_FLAG_NO_CONSTTIME))
