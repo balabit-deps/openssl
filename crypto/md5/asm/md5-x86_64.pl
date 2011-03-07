@@ -367,5 +367,3 @@ ___
 print OUTPUT $code;
 
 close OUTPUT;
-
-print "bzzzzertk\n";
