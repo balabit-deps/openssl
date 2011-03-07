@@ -3,6 +3,7 @@ STAMPDIR=tgz2build/stamps
 
 CONFIGURE = ./config shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
 
+MAKEDEPPROG=
 ifneq (,$(findstring linux-,$(ZBS_DIST)))
   	ifneq (,$(findstring amd64,$(ZBS_ARCH)))
 		CONFIGURE = ./Configure linux-generic64 shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
@@ -27,10 +28,12 @@ endif
 
 ifneq (,$(findstring hpux,$(ZBS_DIST)))
   RPATH=-Wl,+b/opt/syslog-ng/lib
+  MAKEDEPPROG=MAKEDEPPROG=gcc
 endif
 
 ifneq (,$(findstring tru64,$(ZBS_DIST)))
-RPATH=-Wl,-rpath,/opt/syslog-ng/lib
+  RPATH=-Wl,-rpath,/opt/syslog-ng/lib
+  CC=cc
 endif
 
 all: binary
@@ -56,24 +59,26 @@ $(STAMPDIR)/stamp-configure: $(STAMPDIR)/stamp-setup
 
 build: $(STAMPDIR)/stamp-build
 $(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
-	$(MAKE) depend
+	$(MAKE) depend $(MAKEDEPPROG)
 	# need to do this way, because we don't have any other way to pass rpath settings, without munging the Configure script.
 	SHARED_LDFLAGS=`sed -n -e 's/^SHARED_LDFLAGS[^=]*=//p' Makefile`; \
 	$(MAKE) SHARED_LDFLAGS="$$SHARED_LDFLAGS $(RPATH)"
 	$(MAKE) test
 	if echo $(ZBS_DIST) | grep '^aix' >/dev/null 2>&1;then \
+		set -ex; \
 		mv libcrypto.a libcrypto_static.a; \
 		mv libssl.a libssl_static.a; \
-		/usr/bin/ar -q libcrypto.a libcrypto.so.0.9.8; \
+		/usr/bin/ar -q libcrypto.a libcrypto.so.1.0.0; \
 		mv libcrypto.so libcrypto.sox; \
-		gcc -shared -Wl,-bnolibpath,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib,-brtl,-bso,-bnoexpall,-bexpfull,-bnoquiet -Wl,-G,-bexpall,-bM:SRE,-brtl -L. -lcrypto libssl.o libssl_static.a -o libssl.so.0.9.8; \
-		/usr/bin/ar -q libssl.a libssl.so.0.9.8 ; \
+		ld -r -o libssl.o -bnogc libssl_static.a; \
+		gcc -DOPENSSL_THREADS -DDSO_DLFCN -DHAVE_DLFCN_H -O -DB_ENDIAN -pthread -shared -Wl,-bnolibpath,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib,-brtl,-bso,-bnoquiet,-bnoentry,-G,-bexpall,-bM:SRE -L. -lcrypto libssl.o libssl_static.a -o libssl.so.1.0.0; \
+		/usr/bin/ar -q libssl.a libssl.so.1.0.0 ; \
 		chmod 0644 libcrypto.a libssl.a; \
 		cp libssl.a libssl_dynamic.a; \
 		cp libcrypto.a libcrypto_dynamic.a; \
 		rm apps/openssl; \
 		mv libssl.so libssl.sox; \
-		(cd apps && gcc -DOPENSSL_THREADS -D_THREAD_SAFE -DDSO_DLFCN -DHAVE_DLFCN_H -O -DB_ENDIAN -Wl,-brtl,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib -o openssl openssl.o verify.o asn1pars.o req.o dgst.o dh.o dhparam.o enc.o passwd.o gendh.o errstr.o ca.o pkcs7.o crl2p7.o crl.o rsa.o rsautl.o dsa.o dsaparam.o ec.o ecparam.o x509.o genrsa.o gendsa.o s_server.o s_client.o speed.o s_time.o apps.o s_cb.o s_socket.o app_rand.o version.o sess_id.o ciphers.o nseq.o pkcs12.o pkcs8.o spkac.o smime.o rand.o engine.o ocsp.o prime.o cms.o ts.o -L.. -lssl -L.. -lcrypto ); \
+		(cd apps && gcc -DOPENSSL_THREADS -pthread -DDSO_DLFCN -DHAVE_DLFCN_H -O -DB_ENDIAN -Wl,-brtl,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib -o openssl openssl.o verify.o asn1pars.o req.o dgst.o dh.o dhparam.o enc.o passwd.o gendh.o errstr.o ca.o pkcs7.o crl2p7.o crl.o rsa.o rsautl.o dsa.o dsaparam.o ec.o ecparam.o x509.o genrsa.o gendsa.o genpkey.o s_server.o s_client.o speed.o s_time.o apps.o s_cb.o s_socket.o app_rand.o version.o sess_id.o ciphers.o nseq.o pkcs12.o pkcs8.o pkey.o pkeyparam.o pkeyutl.o spkac.o smime.o cms.o rand.o engine.o ocsp.o prime.o ts.o -L.. -lssl -L.. -lcrypto); \
 		cp apps/openssl apps/openssl_dynamic; \
 		cp libcrypto_static.a libcrypto.a; \
 		cp libssl_static.a libssl.a; \
@@ -92,13 +97,14 @@ $(STAMPDIR)/stamp-install: $(STAMPDIR)/stamp-build
 	# On aix, pack the .so -s into the .a files.
 #	if echo $(ZBS_DIST) | grep '^aix-5' >/dev/null 2>&1;then \
 #		rm -f libcrypto.a libssl.a libcrypto.so libssl.so; \
-#		/usr/bin/ar -q libcrypto.a libcrypto.so.0.9.8; \
-#		/usr/bin/ar -q libssl.a libssl.so.0.9.8; \
+#		/usr/bin/ar -q libcrypto.a libcrypto.so.1.0.0; \
+#		/usr/bin/ar -q libssl.a libssl.so.1.0.0; \
 #		chmod 0644 libcrypto.a libssl.a; \
 #		cp libcrypto.a libssl.a $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib; \
 #	elif echo $(ZBS_DIST) | grep 'aix-6' >/dev/null 2>&1; then \
 #
 	if echo $(ZBS_DIST) | grep '^aix' >/dev/null 2>&1;then \
+		set -ex; \
 		cp libcrypto_dynamic.a $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib/libcrypto.a; \
 		cp libssl_dynamic.a $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib/libssl.a; \
 		cp apps/openssl $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/bin; \
