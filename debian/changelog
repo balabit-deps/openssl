@@ -1,3 +1,9 @@
+openssl (1.0.0d-1.syslogng41.1) syslogngdeps30; urgency=low
+
+  * updated to 1.0.0d
+
+ -- Tamas Pal <folti@balabit.com>  Wed, 02 Mar 2011 15:19:45 +0100
+
 openssl (0.9.8h-6.syslogng32.1.4) syslogngdeps20; urgency=low
 
   * Fixed CVE-2010-4180
