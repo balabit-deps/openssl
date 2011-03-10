@@ -22,7 +22,7 @@ Description: Secure Socket Layer (SSL) binary and related cryptographic tools
   o  SSL/TLS Client and Server Tests
   o  Handling of S/MIME signed or encrypted Mail
 
-Package: libssl0.9.8
+Package: libssl1.0.0
 Section: libs
 Priority: important
 Architecture: any
