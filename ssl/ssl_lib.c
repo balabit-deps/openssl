@@ -3014,6 +3014,17 @@ int SSL_CTX_load_verify_locations(SSL_CTX *ctx, const char *CAfile,
 	{
 	return(X509_STORE_load_locations(ctx->cert_store,CAfile,CApath));
 	}
+
+int SSL_CTX_set_default_verify_paths_old(SSL_CTX *ctx)
+	{
+	return(X509_STORE_set_default_paths_old(ctx->cert_store));
+	}
+
+int SSL_CTX_load_verify_locations_old(SSL_CTX *ctx, const char *CAfile,
+		const char *CApath)
+	{
+	return(X509_STORE_load_locations_old(ctx->cert_store,CAfile,CApath));
+	}
 #endif
 
 void SSL_set_info_callback(SSL *ssl,
