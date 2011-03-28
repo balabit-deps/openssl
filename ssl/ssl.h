@@ -2101,6 +2101,9 @@ int SSL_version(const SSL *ssl);
 int SSL_CTX_set_default_verify_paths(SSL_CTX *ctx);
 int SSL_CTX_load_verify_locations(SSL_CTX *ctx, const char *CAfile,
                                   const char *CApath);
+int SSL_CTX_set_default_verify_paths_old(SSL_CTX *ctx);
+int SSL_CTX_load_verify_locations_old(SSL_CTX *ctx, const char *CAfile,
+                                      const char *CApath);
 # define SSL_get0_session SSL_get_session/* just peek at pointer */
 SSL_SESSION *SSL_get_session(const SSL *ssl);
 SSL_SESSION *SSL_get1_session(SSL *ssl); /* obtain a reference count */
