@@ -259,3 +259,5 @@ SSL_set_session_secret_cb               307	EXIST::FUNCTION:
 SSL_set_session_ticket_ext_cb           308	EXIST::FUNCTION:
 SSL_set1_param                          309	EXIST::FUNCTION:
 SSL_CTX_set1_param                      310	EXIST::FUNCTION:
+SSL_CTX_load_verify_locations_old       311	EXIST::FUNCTION:
+SSL_CTX_set_default_verify_paths_old    312	EXIST:!VMS:FUNCTION:
