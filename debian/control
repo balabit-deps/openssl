@@ -40,3 +40,12 @@ Description: SSL development libraries, header files and documentation
  libssl and libcrypt development libraries, header files and manpages
  .
  It is part of the OpenSSL implementation of SSL.
+
+Package: libssl1.0.0-dbg
+Section: libs
+Priority: important
+Architecture: any
+Description: SSL shared libraries, debug symbols
+ libssl and libcrypto shared libraries needed by programs like
+ apache-ssl, telnet-ssl and openssh.
+ .
