@@ -1,4 +1,4 @@
-openssl (0.9.8h-6.syslogng32.1.5) syslogngdeps20security; urgency=low
+openssl (0.9.8h-6.syslogng32.1.5) syslogngdeps30security; urgency=low
 
   [ Emese Revfy ]
   * Fixed CVE-2010-4180
@@ -8,9 +8,8 @@ openssl (0.9.8h-6.syslogng32.1.5) syslogngdeps20security; urgency=low
     [Steve Henson]
 
   [ Sandor FRICSKA ]
-  * 
 
- -- Sandor FRICSKA <kobra@balabit.com>  Fri, 07 Oct 2011 16:20:11 +0200
+ -- Sandor FRICSKA <kobra@balabit.com>  Fri, 07 Oct 2011 16:29:06 +0200
 
 openssl (0.9.8h-6.syslogng32.1.3) syslogngdeps20security; urgency=low
 
