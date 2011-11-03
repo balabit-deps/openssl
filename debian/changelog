@@ -1,3 +1,9 @@
+openssl (1.0.0d-1.syslogng41.2) syslogngdeps30; urgency=low
+
+  * Security Release
+
+ -- Emese Revfy <ganesa@balabit.hu>  Thu, 03 Nov 2011 11:58:45 +0100
+
 openssl (1.0.0d-1.syslogng41.1) syslogngdeps30; urgency=low
 
   * updated to 1.0.0d
