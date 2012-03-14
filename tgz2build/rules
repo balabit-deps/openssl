@@ -1,23 +1,24 @@
 #!/usr/bin/make -f
 STAMPDIR=tgz2build/stamps
 
-CONFIGURE = ./config shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+CONFIGURE_OPTS = --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 zlib --openssldir=$(ZBS_PREFIX)/usr --with-zlib-include=$(ZBS_PREFIX)/include --with-zlib-lib=$(ZBS_PREFIX)/lib
+CONFIGURE = ./config shared $(CONFIGURE_OPTS)
 
 MAKEDEPPROG=
 ifneq (,$(findstring linux-,$(ZBS_DIST)))
   	ifneq (,$(findstring amd64,$(ZBS_ARCH)))
-		CONFIGURE = ./Configure linux-generic64 shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+		CONFIGURE = ./Configure linux-generic64 shared $(CONFIGURE_OPTS)
   	else
-		CONFIGURE = ./Configure linux-generic32 shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+		CONFIGURE = ./Configure linux-generic32 shared $(CONFIGURE_OPTS)
   	endif
 endif
 ifneq (,$(findstring hpux,$(ZBS_DIST)))
-		CONFIGURE = ./Configure hpux-gcc shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+		CONFIGURE = ./Configure hpux-gcc shared $(CONFIGURE_OPTS)
 endif
 
 ifneq (,$(findstring solaris-,$(ZBS_DIST)))
 ifneq (,$(findstring sparc64,$(ZBS_ARCH)))
-		CONFIGURE = ./Configure solaris64-sparcv9-gcc shared --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 --openssldir=$(ZBS_PREFIX)/usr
+		CONFIGURE = ./Configure solaris64-sparcv9-gcc shared $(CONFIGURE_OPTS)
 endif
 endif
 
