@@ -1,3 +1,10 @@
+openssl (1.0.0d-1.syslogng42.1) syslogngdeps40; urgency=low
+
+  * Enabled zlib compression support.
+  * bumped version to 1.0.0d-1.syslogng42.1.
+
+ -- Tamas Pal <folti@balabit.com>  Wed, 14 Mar 2012 12:24:51 +0100
+
 openssl (1.0.0d-1.syslogng41.2) syslogngdeps30; urgency=low
 
   * Security Release
