@@ -1,3 +1,9 @@
+openssl (1.0.0d-1.syslogng42.2) syslogngdeps40security; urgency=low
+
+  * CVE-2006-7250
+
+ -- Emese Revfy <ganesa@balabit.hu>  Fri, 27 Apr 2012 13:46:35 +0200
+
 openssl (1.0.0d-1.syslogng42.1) syslogngdeps40; urgency=low
 
   * Enabled zlib compression support.
