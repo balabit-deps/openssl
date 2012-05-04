@@ -205,6 +205,7 @@ if ($FLAVOR =~ /WIN64A/) {
 	$asmtype="win32";
 }
 
+unlink("NUL");
 $bn_asm_obj='';
 $bn_asm_src='';
 $des_enc_obj='';

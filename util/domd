@@ -10,6 +10,7 @@ if [ "$1" = "-MD" ]; then
     shift
 fi
 if [ "$MAKEDEPEND" = "" ]; then MAKEDEPEND=makedepend; fi
+echo $MAKEDEPEND
 
 cp Makefile Makefile.save
 # fake the presence of Kerberos

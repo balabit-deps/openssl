@@ -62,9 +62,13 @@ case "$cmd" in
         break
       fi
       case $1 in
-        --prefix|-p)
-          shift
-          TARGET=`cygpath -u "$1"`
+        --prefix|-p*)
+          case $1 in
+            *=*) TARGET=${1#*=} ;;
+            *)  shift
+                TARGET=`cygpath -u "$1"`
+              ;;
+          esac
           ;;
       esac
       shift
@@ -74,6 +78,7 @@ case "$cmd" in
     touch Makefile
     make links
     cmd /c ms\\do_nasm
+    rm -f NUL
     ;;
   make)
   set -x
