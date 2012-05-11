@@ -117,7 +117,7 @@ else	# Win32
     $base_cflags= " $mf_cflag";
     my $f = $shlib?' /MD':' /MT';
     $lib_cflag='/Zl' if (!$shlib);	# remove /DEFAULTLIBs from static lib
-    $opt_cflags=$f.'/Md /Ox /O2 /Ob2 /Zi';
+    $opt_cflags=$f.' /Md /Ox /O2 /Ob2 /Zi';
     $dbg_cflags=$f.'d /Od -DDEBUG -D_DEBUG';
     $lflags="/nologo /subsystem:console /opt:ref /subsystem:console /DEBUG /MAP /MAPINFO:EXPORTS";
     }

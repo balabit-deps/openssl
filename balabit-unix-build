@@ -22,7 +22,7 @@ case "$cmd" in
         fi
         ;;
       MINGW32) target=mingw ;;
-      MINGW64) target=mingw64 ;;
+      MINGW64) target=mingw64;;
       *)
         if [ `uname -m` = "x86_64" ]; then
           target="debug-linux-generic64"
@@ -31,6 +31,15 @@ case "$cmd" in
         fi
         ;;
     esac
+    if [ "$ZBS_BUILDER_TYPE" = "mingw" ];then
+      case $ZBS_ARCH in
+        i386) target=mingw;;
+        amd64) target=mingw64;m64flag=-m64 ;;
+      esac
+      if [ -n "$CC" ];then
+        sed -i -e "s/^\(\"$target\", \"\)gcc:/\1$CC:$m64flag /" Configure
+      fi
+    fi
     ./Configure $target shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}/usr'
     make links
     make depend

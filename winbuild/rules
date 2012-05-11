@@ -4,6 +4,10 @@ STAGINGDIR=winbuild/staging
 
 ifneq (,$(findstring mingw,$(ZBS_BUILDER_TYPE)))
 BUILDCMD=./balabit-unix-build
+CONFIG_OPTS=--with-zlib-include=$(ZBS_PREFIX)/dep/include --with-zlib-lib=$(ZBS_PREFIX)/dep/lib
+ifneq (,$(ZBS_COMPILER_PREFIX))
+CROSS_COMPILE=$(ZBS_COMPILER_PREFIX)
+endif
 else
 BUILDCMD=./balabit-vs-build
 endif
@@ -20,7 +24,7 @@ $(STAMPDIR)/stamp-setup:
 
 configure: $(STAMPDIR)/stamp-configure
 $(STAMPDIR)/stamp-configure: setup
-	$(BUILDCMD) configure --prefix=$(ZBS_STAGE_DIR)
+	$(BUILDCMD) configure --prefix=$(ZBS_STAGE_DIR) $(CONFIG_OPTS)
 	touch $@
 
 build:  $(STAMPDIR)/stamp-build
