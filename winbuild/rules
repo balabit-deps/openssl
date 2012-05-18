@@ -2,9 +2,10 @@
 STAMPDIR=winbuild/stamps
 STAGINGDIR=winbuild/staging
 
+CONFIG_OPTS= enable-capieng
 ifneq (,$(findstring mingw,$(ZBS_BUILDER_TYPE)))
 BUILDCMD=./balabit-unix-build
-CONFIG_OPTS=--with-zlib-include=$(ZBS_PREFIX)/dep/include --with-zlib-lib=$(ZBS_PREFIX)/dep/lib
+CONFIG_OPTS+= --with-zlib-include=$(ZBS_PREFIX)/dep/include --with-zlib-lib=$(ZBS_PREFIX)/dep/lib
 ifneq (,$(ZBS_COMPILER_PREFIX))
 CROSS_COMPILE=$(ZBS_COMPILER_PREFIX)
 endif
