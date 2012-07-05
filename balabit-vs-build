@@ -1,22 +1,18 @@
-#!/bin/sh
+#!/bin/sh -ex
 
-set -e
-
-ZWACONF=./.zwaconf
+ZWACONF=.zwaconf
 
 TARGET=
 
 if [ -f $ZWACONF ]; then
-  . $ZWACONF
+  . ./$ZWACONF
 fi
+
+ubuild=./balabit-unix-build
 
 if [ -z "$TARGET" ]; then
   TARGET=$PWD/out
 fi
-
-get_version(){
-      head -1 debian/changelog | sed -e 's/.*(\([^)]*\)).*/\1/'
-}
 
 sed_file() {
 
@@ -25,6 +21,7 @@ sed_file() {
         out=$1
 
         sed \
+            -e "s,@TARGET@,${TARGET},g" \
             -e "s/@VERSION@/${VERSION}/g" \
             $in > $out
         shift
@@ -46,95 +43,13 @@ case "$cmd" in
     echo "out obj *.aqt *.ncb *.suo *.vcproj.*.user"
     ;;
   bootstrap)
+    $ubuild bootstrap $@
     ;;
   configure)
-    OPTIONS=`getopt -l help,prefix: 'p:' $*`
-    if [ $? -ne 0 ]; then
-      echo "$0: unknown flags..."
-      exit 1
-    fi
-
-    eval set -- "$OPTIONS"
-    while true ; do
-      _arg=$1
-
-      if [ -z "$_arg" ]; then
-        break
-      fi
-      case $1 in
-        --prefix|-p*)
-          case $1 in
-            *=*) TARGET=${1#*=} ;;
-            *)  shift
-                TARGET=`cygpath -u "$1"`
-              ;;
-          esac
-          ;;
-      esac
-      shift
-    done
-    echo "TARGET=$TARGET" > $ZWACONF
-    perl Configure VC-WIN32
-    touch Makefile
-    make links
-    cmd /c ms\\do_nasm
-    rm -f NUL
+    $ubuild configure $@
     ;;
   make)
-  set -x
-      # kill variables declared by unix make with contents incompatible by nmake.
-        unset MAKE
-        unset MAKEFLAGS
-        unset MAKEDIR
-    if [ -z "$1" ]; then
-      nmake -nologo -f ms/ntdll.mak
-      make libssl.pc libcrypto.pc openssl.pc
-    else
-      case $1 in
-        clean)
-          rm -rfv out32dll tmp32dll out32dll.pdb inc32
-          rm -rfv out
-          rm -fv libssl.pc libcrypto.pc openssl.pc
-          rm -fv $ZWACONF
-          ;;
-        distclean)
-          $0 make clean
-          rm -fv debian/changelog winbuild/build.bat
-          ;;
-        install)
-          if [ "$ZBS_BUILDER_TYPE" = "win2" ]; then
-          # kill variables declared by unix make with contents incompatible by nmake.
-            unset MAKE
-            unset MAKEFLAGS
-            unset MAKEDIR
-          fi
-          OUT=$TARGET
-          # copy hates targets with + in the path...
-          if [ -n "$ZBS_PREFIX" ]; then
-              OUT=$ZBS_PREFIX/out
-              rm -rf ${OUT}/*
-              mkdir -p $OUT
-          fi
-          mkdir -p $OUT/bin $OUT/include/openssl $OUT/lib/pkgconfig
-          nmake -nologo -f ms/ntdll.mak install INSTALLTOP="`cygpath -m $OUT`"
-          if [ -n "$ZBS_PREFIX" ]; then
-              orig=`pwd`
-              cd $ZBS_PREFIX/out
-              mkdir -p ${TARGET}
-              ls -lR ${TARGET}
-              mv -v * ${TARGET}
-              cd $orig
-          fi
-          for _pdb in out32dll/{openssl,libeay32,ssleay32}.pdb; do
-            install -v $_pdb $TARGET/bin
-          done
-          for _pc in *.pc; do
-            install -v $_pc $TARGET/lib/pkgconfig
-          done
-          (cd $TARGET/lib && cp ssleay32.lib ssl.lib && cp libeay32.lib crypto.lib)
-          ;;
-      esac
-    fi
+    $ubuild make $@
     ;;
   *)
     echo "Unknown command: $cmd"

@@ -1,6 +1,8 @@
 #!/bin/sh
 
 set -ex
+env | sort
+uname=${uname:-`uname -s`}
 cmd=$1
 shift
 case "$cmd" in
@@ -13,7 +15,7 @@ case "$cmd" in
     echo "bootstrap not needed"
     ;;
   configure)
-    case `uname -s` in
+    case $uname in
       Darwin)
         if [ -n "$ZBS_ARCH" ] && [ "$ZBS_ARCH" = "i386" ]; then
           target="darwin-i386-cc"
