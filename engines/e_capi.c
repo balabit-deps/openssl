@@ -160,7 +160,7 @@ void capi_free_key(CAPI_KEY * key);
 static PCCERT_CONTEXT capi_find_cert(CAPI_CTX * ctx, const char *id,
                                      HCERTSTORE hstore);
 
-CAPI_KEY *capi_find_key(CAPI_CTX * ctx, const char *id);
+CAPI_KEY *capi_find_priv_key(CAPI_CTX *ctx, const char *id);
 
 static EVP_PKEY *capi_load_privkey(ENGINE *eng, const char *key_id,
                                    UI_METHOD *ui_method, void *callback_data);
@@ -316,12 +316,11 @@ static const ENGINE_CMD_DEFN capi_cmd_defns[] = {
      ENGINE_CMD_FLAG_STRING},
     {CAPI_CMD_STORE_FLAGS,
      "store_flags",
-     "Certificate store flags: 1 = system store",
+     "Certificate store flags: 0 = current user, 1 = system store, 2 = services store",
      ENGINE_CMD_FLAG_NUMERIC},
 
     {0, NULL, NULL, 0}
 };
-
 static int capi_idx = -1;
 static int rsa_capi_idx = -1;
 static int dsa_capi_idx = -1;
@@ -363,13 +362,25 @@ static int capi_ctrl(ENGINE *e, int cmd, long i, void *p, void (*f) (void))
         break;
 
     case CAPI_CMD_STORE_FLAGS:
-        if (i & 1) {
-            ctx->store_flags |= CERT_SYSTEM_STORE_LOCAL_MACHINE;
-            ctx->store_flags &= ~CERT_SYSTEM_STORE_CURRENT_USER;
-        } else {
-            ctx->store_flags |= CERT_SYSTEM_STORE_CURRENT_USER;
-            ctx->store_flags &= ~CERT_SYSTEM_STORE_LOCAL_MACHINE;
-        }
+         {
+           ctx->store_flags = CERT_STORE_OPEN_EXISTING_FLAG | CERT_STORE_READONLY_FLAG;
+           if (i == 0)
+             {
+               ctx->store_flags |= CERT_SYSTEM_STORE_CURRENT_USER;
+             }
+           else if (i == 1)
+             {
+               ctx->store_flags |= CERT_SYSTEM_STORE_LOCAL_MACHINE;
+             }
+           else if (i == 2)
+             {
+               ctx->store_flags |= CERT_SYSTEM_STORE_SERVICES;
+             }
+           else
+             {
+               ctx->store_flags |= CERT_SYSTEM_STORE_CURRENT_USER;
+             }
+         }
         CAPI_trace(ctx, "Setting flags to %d\n", i);
         break;
 
@@ -776,7 +787,7 @@ static EVP_PKEY *capi_load_privkey(ENGINE *eng, const char *key_id,
         return NULL;
     }
 
-    key = capi_find_key(ctx, key_id);
+    key = capi_find_priv_key(ctx, key_id);
 
     if (!key)
         return NULL;
@@ -1517,7 +1528,25 @@ static CAPI_KEY *capi_get_cert_key(CAPI_CTX * ctx, PCCERT_CONTEXT cert)
     return key;
 }
 
-CAPI_KEY *capi_find_key(CAPI_CTX * ctx, const char *id)
+CAPI_KEY *capi_get_cert_priv_key(CAPI_CTX *ctx, PCCERT_CONTEXT cert)
+{
+  DWORD dwKeySpec;
+  CAPI_KEY *key;
+  key = OPENSSL_malloc(sizeof(CAPI_KEY));
+  if (CryptAcquireCertificatePrivateKey(cert, 0, NULL, &key->hprov, &key->keyspec, NULL))
+    {
+      if (CryptGetUserKey(key->hprov, key->keyspec, &key->key))
+        {
+          key->pcert = CertDuplicateCertificateContext(cert);
+          return key;
+        }
+      CryptReleaseContext(key->hprov, 0);
+    }
+  OPENSSL_free(key);
+  return NULL;
+}
+
+CAPI_KEY *capi_find_priv_key(CAPI_CTX * ctx, const char *id)
 {
     PCCERT_CONTEXT cert;
     HCERTSTORE hstore;
@@ -1530,7 +1559,7 @@ CAPI_KEY *capi_find_key(CAPI_CTX * ctx, const char *id)
             return NULL;
         cert = capi_find_cert(ctx, id, hstore);
         if (cert) {
-            key = capi_get_cert_key(ctx, cert);
+            key = capi_get_cert_priv_key(ctx, cert);
             CertFreeCertificateContext(cert);
         }
         CertCloseStore(hstore, 0);
