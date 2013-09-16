@@ -1,3 +1,9 @@
+openssl (1.0.0d-1.syslogng50.1) syslogngdeps50; urgency=low
+
+  * Release for syslog-ng-5.0
+
+ -- Laszlo Budai <lbudai@balabit.hu>  Mon, 16 Sep 2013 13:56:57 +0200
+
 openssl (1.0.0d-1.syslogng42.2) syslogngdeps40security; urgency=low
 
   * CVE-2006-7250
