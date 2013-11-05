@@ -27,7 +27,7 @@ case "$cmd" in
       MINGW64) target=mingw64;;
       *)
         if [ `uname -m` = "x86_64" ]; then
-          target="debug-linux-generic64"
+          target="debug-linux-x86_64"
         else
           target="debug-linux-generic32"
         fi
@@ -42,7 +42,8 @@ case "$cmd" in
         sed -i -e "s/^\(\"$target\", \"\)gcc:/\1$CC:$m64flag /" Configure
       fi
     fi
-    ./Configure $target shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}/usr'
+    ./Configure $target shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}'
+
     make links
     make depend
     ;;
