@@ -115,13 +115,13 @@ libs:
 	@target=lib; $(RECURSIVE_MAKE)
 
 install:
-	@[ -n "$(INSTALLTOP)" ] # should be set by top Makefile...
-	@headerlist="$(EXHEADER)"; for i in $$headerlist ;\
+	[ -n "$(INSTALLTOP)" ] # should be set by top Makefile...
+	headerlist="$(EXHEADER)"; for i in $$headerlist ;\
 	do \
 	(cp $$i $(INSTALL_PREFIX)$(INSTALLTOP)/include/openssl/$$i; \
 	chmod 644 $(INSTALL_PREFIX)$(INSTALLTOP)/include/openssl/$$i ); \
 	done;
-	@target=install; $(RECURSIVE_MAKE)
+	target=install; $(RECURSIVE_MAKE)
 
 lint:
 	@target=lint; $(RECURSIVE_MAKE)

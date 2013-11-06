@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: ZorpOS Maintainers <zorpos@balabit.com>
 Standards-Version: 3.6.1
-Build-Depends: xutils-dev
+Build-Depends: xutils-dev, openssl-fips, openssl-fips-dev
 
 Package: openssl
 Priority: optional
