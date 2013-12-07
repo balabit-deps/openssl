@@ -1,3 +1,9 @@
+openssl (1.0.1e-1.syslogng50.3) syslogngdeps50; urgency=low
+
+  * updated to 1.0.1e
+
+ -- Daniel Gados <gdani@balabit.hu>  Sat, 07 Dec 2013 16:21:17 +0100
+
 openssl (1.0.1c-1.syslogng50.2) syslogngdeps50; urgency=low
 
   * updated to 1.0.1c
