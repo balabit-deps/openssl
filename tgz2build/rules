@@ -86,7 +86,7 @@ $(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
 		cp libcrypto.a libcrypto_dynamic.a; \
 		rm apps/openssl; \
 		mv libssl.so libssl.sox; \
-		(cd apps && gcc -DOPENSSL_THREADS -pthread -DDSO_DLFCN -DHAVE_DLFCN_H -O -DB_ENDIAN -Wl,-brtl,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib -o openssl openssl.o verify.o asn1pars.o req.o dgst.o dh.o dhparam.o enc.o passwd.o gendh.o errstr.o ca.o pkcs7.o crl2p7.o crl.o rsa.o rsautl.o dsa.o dsaparam.o ec.o ecparam.o x509.o genrsa.o gendsa.o genpkey.o s_server.o s_client.o speed.o s_time.o apps.o s_cb.o s_socket.o app_rand.o version.o sess_id.o ciphers.o nseq.o pkcs12.o pkcs8.o pkey.o pkeyparam.o pkeyutl.o spkac.o smime.o cms.o rand.o engine.o ocsp.o prime.o ts.o -L.. -lssl -L.. -lcrypto); \
+		(cd apps && gcc -DOPENSSL_THREADS -pthread -DDSO_DLFCN -DHAVE_DLFCN_H -O -DB_ENDIAN -Wl,-brtl,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib -o openssl openssl.o verify.o asn1pars.o req.o dgst.o dh.o dhparam.o enc.o passwd.o gendh.o errstr.o ca.o pkcs7.o crl2p7.o crl.o rsa.o rsautl.o dsa.o dsaparam.o ec.o ecparam.o x509.o genrsa.o gendsa.o genpkey.o s_server.o s_client.o speed.o s_time.o apps.o s_cb.o s_socket.o app_rand.o version.o sess_id.o ciphers.o nseq.o pkcs12.o pkcs8.o pkey.o pkeyparam.o pkeyutl.o spkac.o smime.o cms.o rand.o engine.o ocsp.o prime.o ts.o srp.o -L.. -lssl -L.. -lcrypto); \
 		cp apps/openssl apps/openssl_dynamic; \
 		cp libcrypto_static.a libcrypto.a; \
 		cp libssl_static.a libssl.a; \
