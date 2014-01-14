@@ -1,3 +1,14 @@
+openssl (1.0.1e-1.syslogng50.4) syslogngdeps50; urgency=low
+
+  * enable FIPS-mode building
+  * AIX tgz2build fixed
+  * mv8 flag removed
+  * remove symlinks to compile on windows
+  * add function numbers for linking on Windows
+  * Removed unnecessary debug output(caused tagging error)
+
+ -- Daniel Gados <gdani@balabit.hu>  Tue, 14 Jan 2014 11:00:03 +0100
+
 openssl (1.0.1e-1.syslogng50.3) syslogngdeps50; urgency=low
 
   * updated to 1.0.1e
