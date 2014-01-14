@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -ex
-env | sort
 uname=${uname:-`uname -s`}
 
 fips=${ENABLE_FIPS:-false}
