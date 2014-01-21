@@ -1,3 +1,9 @@
+openssl (1.0.1e-1.syslogng50.5) syslogngdeps50; urgency=low
+
+  * build: make build FIPS compliant
+
+ -- Laszlo Budai <lbudai@balabit.hu>  Tue, 21 Jan 2014 11:52:33 +0100
+
 openssl (1.0.1e-1.syslogng50.4) syslogngdeps50; urgency=low
 
   * enable FIPS-mode building
