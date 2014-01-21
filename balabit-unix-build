@@ -45,7 +45,7 @@ case "$cmd" in
     fi
 
     if $fips; then
-        ./Configure $target fips shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}' --with-fipsdir='${prefix}'
+        ./Configure $target fips shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}' --with-fipsdir='${prefix}/openssl-fips-2.0'
     else
         ./Configure $target shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}'
     fi
@@ -61,7 +61,7 @@ case "$cmd" in
         args="$args $arg"
     done
     if $fips; then
-        make $args FIPSDIR=$ZWA_INSTALL_DIR  FIPSLIBDIR=$ZWA_INSTALL_DIR/lib/ INSTALL_PREFIX=$ZWA_INSTALL_DIR INSTALLTOP=/
+        make $args FIPSDIR=$ZWA_INSTALL_DIR/openssl-fips-2.0  FIPSLIBDIR=$ZWA_INSTALL_DIR/openssl-fips-2.0/lib/ INSTALL_PREFIX=$ZWA_INSTALL_DIR INSTALLTOP=/
     else
         make $args
     fi
