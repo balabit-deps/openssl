@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 STAMPDIR=tgz2build/stamps
 
-CONFIGURE_OPTS = --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 zlib --openssldir=$(ZBS_PREFIX)/usr --with-zlib-include=$(ZBS_PREFIX)/include --with-zlib-lib=$(ZBS_PREFIX)/lib
+CONFIGURE_OPTS = --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 zlib --openssldir=$(ZBS_PREFIX)/usr --with-zlib-include=$(ZBS_PREFIX)/include --with-zlib-lib=$(ZBS_PREFIX)/lib -Wa,--noexecstack
 CONFIGURE = ./config shared $(CONFIGURE_OPTS)
 FIPS_OPT =
 FIPS_DIR_OPT =
