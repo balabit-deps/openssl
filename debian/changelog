@@ -1,3 +1,9 @@
+openssl (1.0.1e-1.syslogng52.1) syslogng52; urgency=low
+
+  * release for syslog-ng-5.2
+
+ -- jviktor <jviktor@devel-57>  Fri, 06 Jun 2014 17:22:22 +0200
+
 openssl (1.0.1e-1.syslogng51.1) syslogngdeps51; urgency=low
 
   * release for syslog-ng-5.1
