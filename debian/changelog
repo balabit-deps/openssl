@@ -1,3 +1,10 @@
+openssl (1.0.1e-1.syslogng50.7) syslogngdeps50; urgency=low
+
+  * CVE-2014-0224
+  * CVE-2014-0221
+
+ -- Laszlo Budai <Laszlo.Budai@balabit.com>  Wed, 18 Jun 2014 11:04:03 +0200
+
 openssl (1.0.1e-1.syslogng50.6) syslogngdeps50; urgency=low
 
   * CVE-2014-160
