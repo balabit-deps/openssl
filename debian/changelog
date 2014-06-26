@@ -1,3 +1,9 @@
+openssl (1.0.1e-1.syslogng52.2) syslogng52; urgency=low
+
+  * build openssl with --noexecstack flag on linux
+
+ -- Laszlo Budai <Laszlo.Budai@balabit.com>  Thu, 26 Jun 2014 11:14:22 +0200
+
 openssl (1.0.1e-1.syslogng52.1) syslogng52; urgency=low
 
   * release for syslog-ng-5.2
