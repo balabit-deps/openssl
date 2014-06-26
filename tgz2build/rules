@@ -13,9 +13,9 @@ ifneq (,$(findstring fips,$(TGZ_BUILD_OPTS)))
 	FIPS_DIR_OPT = --with-fipsdir=$(ZBS_PREFIX)/openssl-fips-2.0
 endif
 ifneq (,$(findstring amd64,$(ZBS_ARCH)))
-	CONFIGURE = ./Configure linux-x86_64 $(FIPS_OPT) shared $(CONFIGURE_OPTS) $(FIPS_DIR_OPT)
+	CONFIGURE = ./Configure linux-x86_64 $(FIPS_OPT) shared $(CONFIGURE_OPTS) $(FIPS_DIR_OPT) -Wa,--noexecstack
 else
-	CONFIGURE = ./Configure linux-generic32 $(FIPS_OPT) shared $(CONFIGURE_OPTS) $(FIPS_DIR_OPT)
+	CONFIGURE = ./Configure linux-generic32 $(FIPS_OPT) shared $(CONFIGURE_OPTS) $(FIPS_DIR_OPT) -Wa,--noexecstack
 endif
 endif
 

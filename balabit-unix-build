@@ -3,6 +3,7 @@
 uname=${uname:-`uname -s`}
 
 fips=${ENABLE_FIPS:-false}
+extraopts=""
 
 cmd=$1
 shift
@@ -29,8 +30,10 @@ case "$cmd" in
       *)
         if [ `uname -m` = "x86_64" ]; then
           target="debug-linux-x86_64"
+          extraopts="-Wa,--noexecstack"
         else
           target="debug-linux-generic32"
+          extraopts="-Wa,--noexecstack"
         fi
         ;;
     esac
@@ -45,9 +48,10 @@ case "$cmd" in
     fi
 
     if $fips; then
-        ./Configure $target fips shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}' --with-fipsdir='${prefix}/openssl-fips-2.0'
+        ./Configure $target $extraopts fips shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}' --with-fipsdir='${prefix}/openssl-fips-2.0'
     else
-        ./Configure $target shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}'
+        echo ./Configure $target $extraopts shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}'
+        ./Configure $target $extraopts shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}'
     fi
     make links
     make depend
