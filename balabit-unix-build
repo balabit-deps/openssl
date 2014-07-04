@@ -25,7 +25,7 @@ case "$cmd" in
           target="darwin64-x86_64-cc"
         fi
         ;;
-      MINGW32) target=mingw ;;
+      MINGW) target=mingw ;;
       MINGW64) target=mingw64;;
       *)
         if [ `uname -m` = "x86_64" ]; then
