@@ -75,6 +75,6 @@ case "$cmd" in
     exit 1
     ;;
 esac
-exit 0
+exit $?
 
 # vim: ts=2 sw=2 expandtab
