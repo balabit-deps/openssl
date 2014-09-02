@@ -592,7 +592,7 @@ static unsigned long dtls1_max_handshake_message_len(const SSL *s)
 	}
 
 static int
-dtls1_reassemble_fragment(SSL *s, struct hm_header_st* msg_hdr, int *ok)
+dtls1_reassemble_fragment(SSL *s, const struct hm_header_st* msg_hdr, int *ok)
 	{
 	hm_fragment *frag = NULL;
 	pitem *item = NULL;
@@ -603,6 +603,9 @@ dtls1_reassemble_fragment(SSL *s, struct hm_header_st* msg_hdr, int *ok)
 	if ((msg_hdr->frag_off+frag_len) > msg_hdr->msg_len ||
 	    msg_hdr->msg_len > dtls1_max_handshake_message_len(s))
 		goto err;
+
+	if (frag_len == 0)
+		return DTLS1_HM_FRAGMENT_RETRY;
 
 	/* Try to find item in queue */
 	memset(seq64be,0,sizeof(seq64be));
@@ -653,7 +656,9 @@ dtls1_reassemble_fragment(SSL *s, struct hm_header_st* msg_hdr, int *ok)
 	/* read the body of the fragment (header has already been read */
 	i = s->method->ssl_read_bytes(s,SSL3_RT_HANDSHAKE,
 		frag->fragment + msg_hdr->frag_off,frag_len,0);
-	if (i<=0 || (unsigned long)i!=frag_len)
+	if ((unsigned long)i!=frag_len)
+		i=-1;
+	if (i<=0)
 		goto err;
 
 	RSMBLY_BITMASK_MARK(frag->reassembly, (long)msg_hdr->frag_off,
@@ -670,10 +675,6 @@ dtls1_reassemble_fragment(SSL *s, struct hm_header_st* msg_hdr, int *ok)
 
 	if (item == NULL)
 		{
-		memset(seq64be,0,sizeof(seq64be));
-		seq64be[6] = (unsigned char)(msg_hdr->seq>>8);
-		seq64be[7] = (unsigned char)(msg_hdr->seq);
-
 		item = pitem_new(seq64be, frag);
 		if (item == NULL)
 			{
@@ -681,7 +682,12 @@ dtls1_reassemble_fragment(SSL *s, struct hm_header_st* msg_hdr, int *ok)
 			i = -1;
 			}
 
-		pqueue_insert(s->d1->buffered_messages, item);
+		item = pqueue_insert(s->d1->buffered_messages, item);
+		/* pqueue_insert fails iff a duplicate item is inserted.
+		 * However, |item| cannot be a duplicate. If it were,
+		 * |pqueue_find|, above, would have returned it and control
+		 * would never have reached this branch. */
+		OPENSSL_assert(item != NULL);
 		}
 
 	return DTLS1_HM_FRAGMENT_RETRY;
@@ -694,7 +700,7 @@ err:
 
 
 static int
-dtls1_process_out_of_seq_message(SSL *s, struct hm_header_st* msg_hdr, int *ok)
+dtls1_process_out_of_seq_message(SSL *s, const struct hm_header_st* msg_hdr, int *ok)
 {
 	int i=-1;
 	hm_fragment *frag = NULL;
@@ -714,7 +720,7 @@ dtls1_process_out_of_seq_message(SSL *s, struct hm_header_st* msg_hdr, int *ok)
 	/* If we already have an entry and this one is a fragment,
 	 * don't discard it and rather try to reassemble it.
 	 */
-	if (item != NULL && frag_len < msg_hdr->msg_len)
+	if (item != NULL && frag_len != msg_hdr->msg_len)
 		item = NULL;
 
 	/* Discard the message if sequence number was already there, is
@@ -739,7 +745,7 @@ dtls1_process_out_of_seq_message(SSL *s, struct hm_header_st* msg_hdr, int *ok)
 		}
 	else
 		{
-		if (frag_len && frag_len < msg_hdr->msg_len)
+		if (frag_len != msg_hdr->msg_len)
 			return dtls1_reassemble_fragment(s, msg_hdr, ok);
 
 		if (frag_len > dtls1_max_handshake_message_len(s))
@@ -756,19 +762,25 @@ dtls1_process_out_of_seq_message(SSL *s, struct hm_header_st* msg_hdr, int *ok)
 			/* read the body of the fragment (header has already been read */
 			i = s->method->ssl_read_bytes(s,SSL3_RT_HANDSHAKE,
 				frag->fragment,frag_len,0);
-			if (i<=0 || (unsigned long)i!=frag_len)
+			if ((unsigned long)i!=frag_len)
+				i = -1;
+			if (i<=0)
 				goto err;
 			}
-
-		memset(seq64be,0,sizeof(seq64be));
-		seq64be[6] = (unsigned char)(msg_hdr->seq>>8);
-		seq64be[7] = (unsigned char)(msg_hdr->seq);
 
 		item = pitem_new(seq64be, frag);
 		if ( item == NULL)
 			goto err;
 
-		pqueue_insert(s->d1->buffered_messages, item);
+		item = pqueue_insert(s->d1->buffered_messages, item);
+		/* pqueue_insert fails iff a duplicate item is inserted.
+		 * However, |item| cannot be a duplicate. If it were,
+		 * |pqueue_find|, above, would have returned it. Then, either
+		 * |frag_len| != |msg_hdr->msg_len| in which case |item| is set
+		 * to NULL and it will have been processed with
+		 * |dtls1_reassemble_fragment|, above, or the record will have
+		 * been discarded. */
+		OPENSSL_assert(item != NULL);
 		}
 
 	return DTLS1_HM_FRAGMENT_RETRY;
