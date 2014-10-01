@@ -1,3 +1,25 @@
+openssl (1.0.1e-1.syslogng52.4) syslogng52; urgency=medium
+
+  * CVE-2014-0160
+  * CVE-2014-0224
+  * CVE-2014-0221
+  * CVE-2014-0198
+  * CVE-2014-0076
+  * CVE-2014-3470
+  * CVE-2014-0195
+  * CVE-2010-5298
+  * CVE-2014-3505
+  * CVE-2014-3506
+  * CVE-2014-3507
+  * CVE-2014-3508
+  * CVE-2014-3509
+  * CVE-2014-3510
+  * CVE-2014-3511
+  * CVE-2014-3512
+  * CVE-2014-5139
+
+ -- jviktor <jviktor@devel-57>  Wed, 01 Oct 2014 13:25:05 +0200
+
 openssl (1.0.1e-1.syslogng52.3) syslogng52; urgency=medium
 
   * build correction on windows
