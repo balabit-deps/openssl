@@ -1,0 +1,196 @@
+openssl (1.0.1e-1.syslogng52.4) syslogng52; urgency=medium
+
+  * CVE-2014-0160
+  * CVE-2014-0224
+  * CVE-2014-0221
+  * CVE-2014-0198
+  * CVE-2014-0076
+  * CVE-2014-3470
+  * CVE-2014-0195
+  * CVE-2010-5298
+  * CVE-2014-3505
+  * CVE-2014-3506
+  * CVE-2014-3507
+  * CVE-2014-3508
+  * CVE-2014-3509
+  * CVE-2014-3510
+  * CVE-2014-3511
+  * CVE-2014-3512
+  * CVE-2014-5139
+
+ -- jviktor <jviktor@devel-57>  Wed, 01 Oct 2014 13:25:05 +0200
+
+openssl (1.0.1e-1.syslogng52.3) syslogng52; urgency=medium
+
+  * build correction on windows
+
+ -- jviktor <jviktor@devel-57>  Fri, 04 Jul 2014 14:05:26 +0200
+
+openssl (1.0.1e-1.syslogng52.2) syslogng52; urgency=low
+
+  * build openssl with --noexecstack flag on linux
+
+ -- Laszlo Budai <Laszlo.Budai@balabit.com>  Thu, 26 Jun 2014 11:14:22 +0200
+
+openssl (1.0.1e-1.syslogng52.1) syslogng52; urgency=low
+
+  * release for syslog-ng-5.2
+
+ -- jviktor <jviktor@devel-57>  Fri, 06 Jun 2014 17:22:22 +0200
+
+openssl (1.0.1e-1.syslogng51.1) syslogngdeps51; urgency=low
+
+  * release for syslog-ng-5.1
+
+ -- Laszlo Budai <lbudai@balabit.hu>  Tue, 04 Mar 2014 09:47:34 +0100
+
+openssl (1.0.1e-1.syslogng50.5) syslogngdeps50; urgency=low
+
+  * build: make build FIPS compliant
+
+ -- Laszlo Budai <lbudai@balabit.hu>  Tue, 21 Jan 2014 11:52:33 +0100
+
+openssl (1.0.1e-1.syslogng50.4) syslogngdeps50; urgency=low
+
+  * enable FIPS-mode building
+  * AIX tgz2build fixed
+  * mv8 flag removed
+  * remove symlinks to compile on windows
+  * add function numbers for linking on Windows
+  * Removed unnecessary debug output(caused tagging error)
+
+ -- Daniel Gados <gdani@balabit.hu>  Tue, 14 Jan 2014 11:00:03 +0100
+
+openssl (1.0.1e-1.syslogng50.3) syslogngdeps50; urgency=low
+
+  * updated to 1.0.1e
+
+ -- Daniel Gados <gdani@balabit.hu>  Sat, 07 Dec 2013 16:21:17 +0100
+
+openssl (1.0.1c-1.syslogng50.2) syslogngdeps50; urgency=low
+
+  * updated to 1.0.1c
+
+ -- Daniel Gados <gdani@balabit.hu>  Tue, 05 Nov 2013 12:14:17 +0100
+
+openssl (1.0.0d-1.syslogng50.1) syslogngdeps50; urgency=low
+
+  * Release for syslog-ng-5.0
+
+ -- Laszlo Budai <lbudai@balabit.hu>  Mon, 16 Sep 2013 13:56:57 +0200
+
+openssl (1.0.0d-1.syslogng42.2) syslogngdeps40security; urgency=low
+
+  * CVE-2006-7250
+
+ -- Emese Revfy <ganesa@balabit.hu>  Fri, 27 Apr 2012 13:46:35 +0200
+
+openssl (1.0.0d-1.syslogng42.1) syslogngdeps40; urgency=low
+
+  * Enabled zlib compression support.
+  * bumped version to 1.0.0d-1.syslogng42.1.
+
+ -- Tamas Pal <folti@balabit.com>  Wed, 14 Mar 2012 12:24:51 +0100
+
+openssl (1.0.0d-1.syslogng41.2) syslogngdeps30; urgency=low
+
+  * Security Release
+
+ -- Emese Revfy <ganesa@balabit.hu>  Thu, 03 Nov 2011 11:58:45 +0100
+
+openssl (1.0.0d-1.syslogng41.1) syslogngdeps30; urgency=low
+
+  * updated to 1.0.0d
+
+ -- Tamas Pal <folti@balabit.com>  Wed, 02 Mar 2011 15:19:45 +0100
+
+openssl (0.9.8h-6.syslogng32.1.4) syslogngdeps20; urgency=low
+
+  * Fixed CVE-2010-4180
+    Disable code workaround for ancient and obsolete Netscape browsers
+    and servers: an attacker can use it in a ciphersuite downgrade attack.
+    Thanks to Martin Rex for discovering this bug. CVE-2010-4180
+    [Steve Henson]
+
+ -- Emese Revfy <ganesa@balabit.hu>  Fri, 04 Feb 2011 11:09:41 +0100
+
+openssl (0.9.8h-6.syslogng32.1.3) syslogngdeps20security; urgency=low
+
+  * Fixed CVE-2008-7270
+
+ -- Emese Revfy <ganesa@balabit.hu>  Thu, 03 Feb 2011 12:33:20 +0100
+
+openssl (0.9.8h-6.syslogng32.1.2) syslogngdeps20security; urgency=low
+
+  * Fixed CVE-2009-3245
+  * Fix for CVE-2010-0433 where some kerberos enabled versions of OpenSSL
+    could be crashed if the relevant tables were not present (e.g. chrooted).
+    [Tomas Hoger <thoger@redhat.com>]
+  * Reject UniversalString and BMPString types with invalid lengths. This
+    prevents a crash in ASN1_STRING_print_ex() which assumes the strings have
+    a legal length. (CVE-2009-0590)
+    [Steve Henson]
+  * Remove MD2 from digest algorithm table. This follows
+    the recommendation in several places that it is not used in new applications.
+    CVE-2009-2409
+  * CVE-2010-0742 fix
+
+ -- Emese Revfy <ganesa@balabit.hu>  Mon, 13 Dec 2010 10:00:00 +0200
+
+openssl (0.9.8h-6.syslogng32.1.1) syslogngdeps20security; urgency=low
+
+  * SECURITY UPDATE: CVE-2010-3864 fix, CVE-2010-0740
+
+ -- Tamas SZERB <toma@balabit.com>  Wed, 01 Dec 2010 11:43:47 +0100
+
+openssl (0.9.8h-6.syslogng32.1) syslogngdeps20; urgency=low
+
+  * MD5 amd64 assembly code generator now works.
+  * Fixed AIX linking.
+  * Runs make test after building.
+
+ -- Tamas Pal <folti@balabit.com>  Wed, 29 Sep 2010 11:17:17 +0200
+
+openssl (0.9.8h-6.syslogng31) syslogngdeps10; urgency=low
+
+  * Works with syslog-ng-3.1 release system.
+
+ -- Andras Tevesz <ghost@balabit.com>  Mon, 08 Mar 2010 15:15:53 +0100
+
+openssl (0.9.8h-5.syslogng30) syslogngdeps10; urgency=low
+
+  * Works with syslog-ng-3.1 release system.
+
+ -- Tamas Pal <folti@balabit.com>  Tue, 03 Nov 2009 15:09:40 +0100
+
+openssl (0.9.8h-4.syslogng30) syslogng31; urgency=low
+
+  * SECURITY UPDATE: Added Ubuntu patch to fix CVE-2008-5077.
+
+ -- Tamas Pal <folti@balabit.com>  Thu, 08 Jan 2009 17:51:32 +0100
+
+openssl (0.9.8h-3.syslogng30) syslogng30; urgency=low
+
+  * Fixed Packaging for AIX.
+  * Bumped version 0.9.8h-3.syslogng31
+
+ -- Tamas Pal <folti@balabit.com>  Wed, 01 Oct 2008 18:21:56 +0200
+
+openssl (0.9.8h-2.syslogng30) syslogng30; urgency=low
+
+  * Simplified the configure part and fixed the prefix,
+    now using INSTALL_PREFIX.
+
+ -- ZorpOS Maintainers <zorpos@balabit.com>  Thu, 31 Jul 2008 14:14:54 +0200
+
+openssl-syslog-ng (0.9.8h-1) unstable; urgency=low
+
+  * Support for multi arctitecture for solaris and linux-generic.
+
+ -- ZorpOS Maintainers <zorpos@balabit.com>  Tue, 29 Jul 2008 13:36:45 +0200
+
+openssl-syslog-ng (0.9.8h) unstable; urgency=low
+
+  * Initial tgz2build package. 
+
+ -- ZorpOS Maintainers <zorpos@balabit.com>  Fri, 18 Jul 2008 15:47:20 +0200
