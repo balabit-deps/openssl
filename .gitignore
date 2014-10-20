@@ -184,3 +184,13 @@ pod2htmd.tmp
 # Windows manifest files
 *.manifest
 doc-nits
+
+ms/bcb.mak
+ms/libeay32.def
+ms/nt.mak
+ms/ntdll.mak
+ms/ssleay32.def
+ms/version32.rc
+sbuild/*
+!sbuild/config.yml
+sbuild.py
