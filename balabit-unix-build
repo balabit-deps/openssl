@@ -1,0 +1,80 @@
+#!/bin/sh
+
+uname=${uname:-`uname -s`}
+
+fips=${ENABLE_FIPS:-false}
+extraopts=""
+
+cmd=$1
+shift
+case "$cmd" in
+  get-version)
+      head -1 debian/changelog | sed -e 's/.*(\([^)]*\)).*/\1/'
+    ;;
+  build-exclude-list|dist-exclude-list|prepare-dist)
+    ;;
+  bootstrap)
+    echo "bootstrap not needed"
+    ;;
+  configure)
+    case $uname in
+      Darwin)
+        if [ -n "$ZBS_ARCH" ] && [ "$ZBS_ARCH" = "i386" ]; then
+          target="darwin-i386-cc"
+        else
+          target="darwin64-x86_64-cc"
+        fi
+        ;;
+      MINGW) target=mingw ;;
+      MINGW64) target=mingw64;;
+      *)
+        if [ `uname -m` = "x86_64" ]; then
+          target="debug-linux-x86_64"
+          extraopts="-Wa,--noexecstack"
+        else
+          target="debug-linux-generic32"
+          extraopts="-Wa,--noexecstack"
+        fi
+        ;;
+    esac
+    if [ "$ZBS_BUILDER_TYPE" = "mingw" ];then
+      case $ZBS_ARCH in
+        i386) target=mingw;;
+        amd64) target=mingw64;m64flag=-m64 ;;
+      esac
+      if [ -n "$CC" ];then
+        sed -i -e "s/^\(\"$target\", \"\)gcc:/\1$CC:$m64flag /" Configure
+      fi
+    fi
+
+    if $fips; then
+        ./Configure $target $extraopts fips shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}' --with-fipsdir='${prefix}/openssl-fips-2.0'
+    else
+        echo ./Configure $target $extraopts shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}'
+        ./Configure $target $extraopts shared $@ zlib no-idea no-mdc2 no-rc5 --openssldir='${prefix}'
+    fi
+    make links
+    make depend
+    ;;
+  make)
+    args=""
+    for arg in $@; do
+        if [ "$arg" = "check" ]; then
+            arg=""
+        fi
+        args="$args $arg"
+    done
+    if $fips; then
+        make $args FIPSDIR=$ZWA_INSTALL_DIR/openssl-fips-2.0  FIPSLIBDIR=$ZWA_INSTALL_DIR/openssl-fips-2.0/lib/ INSTALL_PREFIX=$ZWA_INSTALL_DIR INSTALLTOP=/
+    else
+        make $args
+    fi
+    ;;
+  *)
+    echo "Unknown command: $cmd"
+    exit 1
+    ;;
+esac
+exit $?
+
+# vim: ts=2 sw=2 expandtab
