@@ -1,0 +1,132 @@
+#!/usr/bin/make -f
+STAMPDIR=tgz2build/stamps
+
+CONFIGURE_OPTS = --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 zlib --openssldir=$(ZBS_PREFIX)/usr --with-zlib-include=$(ZBS_PREFIX)/include --with-zlib-lib=$(ZBS_PREFIX)/lib
+CONFIGURE = ./config shared $(CONFIGURE_OPTS)
+FIPS_OPT =
+FIPS_DIR_OPT =
+
+MAKEDEPPROG=
+ifneq (,$(findstring linux-,$(ZBS_DIST)))
+ifneq (,$(findstring fips,$(TGZ_BUILD_OPTS)))
+	FIPS_OPT = fips
+	FIPS_DIR_OPT = --with-fipsdir=$(ZBS_PREFIX)/openssl-fips-2.0
+endif
+ifneq (,$(findstring amd64,$(ZBS_ARCH)))
+	CONFIGURE = ./Configure linux-x86_64 $(FIPS_OPT) shared $(CONFIGURE_OPTS) $(FIPS_DIR_OPT) -Wa,--noexecstack
+else
+	CONFIGURE = ./Configure linux-generic32 $(FIPS_OPT) shared $(CONFIGURE_OPTS) $(FIPS_DIR_OPT) -Wa,--noexecstack
+endif
+endif
+
+ifneq (,$(findstring hpux,$(ZBS_DIST)))
+		CONFIGURE = ./Configure hpux-gcc shared $(CONFIGURE_OPTS)
+endif
+
+ifneq (,$(findstring solaris-,$(ZBS_DIST)))
+ifneq (,$(findstring sparc64,$(ZBS_ARCH)))
+		CONFIGURE = ./Configure solaris64-sparcv9-gcc shared $(CONFIGURE_OPTS)
+endif
+endif
+
+RPATH=-Wl,-R/opt/syslog-ng/lib
+ifneq (,$(findstring aix,$(ZBS_DIST)))
+  RPATH=-Wl,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib,-bnoquiet,-bnoentry
+endif
+
+ifneq (,$(findstring hpux,$(ZBS_DIST)))
+  RPATH=-Wl,+b/opt/syslog-ng/lib
+  MAKEDEPPROG=MAKEDEPPROG=gcc
+endif
+
+ifneq (,$(findstring tru64,$(ZBS_DIST)))
+  RPATH=-Wl,-rpath,/opt/syslog-ng/lib
+  CC=cc
+endif
+
+all: binary
+
+binary: $(STAMPDIR)/stamp-setup $(STAMPDIR)/stamp-configure $(STAMPDIR)/stamp-build $(STAMPDIR)/stamp-install
+
+setup: $(STAMPDIR)/stamp-setup
+$(STAMPDIR)/stamp-setup:
+	mkdir tgz2build/stamps || true
+	touch $@
+
+configure: $(STAMPDIR)/stamp-configure
+$(STAMPDIR)/stamp-configure: $(STAMPDIR)/stamp-setup
+	# Force to use AIX's native ar. GNU ar don't support -X (32|64)
+	# argument, only -X(32|64)
+	if echo $(ZBS_DIST) | grep '^aix' >/dev/null 2>&1;then \
+		sed -e 's%^\(AR=\)ar%\1\/usr\/bin\/ar%' Makefile.org > Makefile.org.aix; \
+		mv Makefile.org.aix Makefile.org; \
+	fi
+	$(SHELL) $(CONFIGURE)
+	$(MAKE) links
+	touch $@
+
+build: $(STAMPDIR)/stamp-build
+$(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
+	$(MAKE) depend $(MAKEDEPPROG)
+	# need to do this way, because we don't have any other way to pass rpath settings, without munging the Configure script.
+	SHARED_LDFLAGS=`sed -n -e 's/^SHARED_LDFLAGS[^=]*=//p' Makefile`; \
+	$(MAKE) SHARED_LDFLAGS="$$SHARED_LDFLAGS $(RPATH)"
+	$(MAKE) test
+	if echo $(ZBS_DIST) | grep '^aix' >/dev/null 2>&1;then \
+		set -ex; \
+		mv libcrypto.a libcrypto_static.a; \
+		mv libssl.a libssl_static.a; \
+		/usr/bin/ar -q libcrypto.a libcrypto.so.1.0.0; \
+		mv libcrypto.so libcrypto.sox; \
+		ld -r -o libssl.o -bnogc libssl_static.a; \
+		gcc -DOPENSSL_THREADS -DDSO_DLFCN -DHAVE_DLFCN_H -O -DB_ENDIAN -pthread -shared -Wl,-bnolibpath,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib,-brtl,-bso,-bnoquiet,-bnoentry,-G,-bexpall,-bM:SRE -L. -lcrypto libssl.o libssl_static.a -o libssl.so.1.0.0; \
+		/usr/bin/ar -q libssl.a libssl.so.1.0.0 ; \
+		chmod 0644 libcrypto.a libssl.a; \
+		cp libssl.a libssl_dynamic.a; \
+		cp libcrypto.a libcrypto_dynamic.a; \
+		rm apps/openssl; \
+		mv libssl.so libssl.sox; \
+		(cd apps && gcc -DOPENSSL_THREADS -pthread -DDSO_DLFCN -DHAVE_DLFCN_H -O -DB_ENDIAN -Wl,-brtl,-blibpath:/opt/syslog-ng/lib:/usr/lib:/lib -o openssl openssl.o verify.o asn1pars.o req.o dgst.o dh.o dhparam.o enc.o passwd.o gendh.o errstr.o ca.o pkcs7.o crl2p7.o crl.o rsa.o rsautl.o dsa.o dsaparam.o ec.o ecparam.o x509.o genrsa.o gendsa.o genpkey.o s_server.o s_client.o speed.o s_time.o apps.o s_cb.o s_socket.o app_rand.o version.o sess_id.o ciphers.o nseq.o pkcs12.o pkcs8.o pkey.o pkeyparam.o pkeyutl.o spkac.o smime.o cms.o rand.o engine.o ocsp.o prime.o ts.o srp.o -L.. -lssl -L.. -lcrypto); \
+		cp apps/openssl apps/openssl_dynamic; \
+		cp libcrypto_static.a libcrypto.a; \
+		cp libssl_static.a libssl.a; \
+		mv libcrypto.sox libcrypto.so; \
+		mv libssl.sox libssl.so; \
+		$(MAKE) SHARED_LDFLAGS="$$SHARED_LDFLAGS $(RPATH)"; \
+	fi
+
+	touch $@
+
+
+install:  $(STAMPDIR)/stamp-install
+$(STAMPDIR)/stamp-install: $(STAMPDIR)/stamp-build
+	rm -rf $(ZBS_STAGE_DIR)
+	$(MAKE) install INSTALL_PREFIX=$(ZBS_STAGE_DIR)
+	# On aix, pack the .so -s into the .a files.
+#	if echo $(ZBS_DIST) | grep '^aix-5' >/dev/null 2>&1;then \
+#		rm -f libcrypto.a libssl.a libcrypto.so libssl.so; \
+#		/usr/bin/ar -q libcrypto.a libcrypto.so.1.0.0; \
+#		/usr/bin/ar -q libssl.a libssl.so.1.0.0; \
+#		chmod 0644 libcrypto.a libssl.a; \
+#		cp libcrypto.a libssl.a $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib; \
+#	elif echo $(ZBS_DIST) | grep 'aix-6' >/dev/null 2>&1; then \
+#
+	if echo $(ZBS_DIST) | grep '^aix' >/dev/null 2>&1;then \
+		set -ex; \
+		cp libcrypto_dynamic.a $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib/libcrypto.a; \
+		cp libssl_dynamic.a $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib/libssl.a; \
+		cp apps/openssl $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/bin; \
+		rm -f $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib/libssl.so* \
+			$(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib/libcrypto.so*; \
+		dump -n apps/openssl | head -30; \
+		dump -n $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib/libcrypto.a | head -30; \
+		dump -n $(ZBS_STAGE_DIR)/$(ZBS_PREFIX)/lib/libssl.a | head -30; \
+	fi
+	touch $@ 
+
+clean:
+	rm -rf tgz2build/stamps || true
+	rm -rf tgz2build/staging || true
+	-$(MAKE) clean
+
+
