@@ -1,0 +1,48 @@
+#!/usr/local/bin/make -f
+STAMPDIR=winbuild/stamps
+STAGINGDIR=winbuild/staging
+
+CONFIG_OPTS= enable-capieng
+ifneq (,$(findstring mingw,$(ZBS_BUILDER_TYPE)))
+BUILDCMD=./balabit-unix-build
+CONFIG_OPTS+= --with-zlib-include=$(ZBS_PREFIX)/dep/include --with-zlib-lib=$(ZBS_PREFIX)/dep/lib
+ifneq (,$(ZBS_COMPILER_PREFIX))
+CROSS_COMPILE=$(ZBS_COMPILER_PREFIX)
+endif
+else
+BUILDCMD=./balabit-vs-build
+endif
+
+all: binary
+
+binary: clean setup configure build install
+
+setup:  $(STAMPDIR)/stamp-setup
+$(STAMPDIR)/stamp-setup:
+	mkdir -p $(STAMPDIR)
+	chmod +x $(BUILDCMD)
+	touch $@
+
+configure: $(STAMPDIR)/stamp-configure
+$(STAMPDIR)/stamp-configure: setup
+	$(BUILDCMD) configure --prefix=$(ZBS_STAGE_DIR) $(CONFIG_OPTS)
+	touch $@
+
+build:  $(STAMPDIR)/stamp-build
+$(STAMPDIR)/stamp-build: configure
+	$(BUILDCMD) make
+	$(BUILDCMD) make check
+	touch $@
+
+install: $(STAMPDIR)/stamp-install
+$(STAMPDIR)/stamp-install: build
+	rm -rf $(ZBS_STAGE_DIR) || true
+	$(BUILDCMD) make install
+	touch $@
+
+clean:
+	-$(BUILDCMD) make clean
+	rm -rf $(STAMPDIR) || true
+	rm -rf $(STAGINGDIR) || true
+
+.PHONY: binary-indep binary-arch binary install
