@@ -1,3 +1,9 @@
+openssl (1.0.1e-1.syslogng53.1) syslogng53; urgency=low
+
+  * release for syslog-ng-5.3
+
+ -- Tusa Viktor <tusa@tusa.balabit>  Tue, 21 Oct 2014 14:04:56 +0200
+
 openssl (1.0.1e-1.syslogng52.4) syslogng52; urgency=medium
 
   * CVE-2014-0160
