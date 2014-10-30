@@ -1,48 +1,8 @@
-openssl (1.0.1e-1.syslogng52.4) syslogng52; urgency=medium
+openssl (1.0.1j-1.syslogng50.9) syslogngdeps50; urgency=low
 
-  * CVE-2014-0160
-  * CVE-2014-0224
-  * CVE-2014-0221
-  * CVE-2014-0198
-  * CVE-2014-0076
-  * CVE-2014-3470
-  * CVE-2014-0195
-  * CVE-2010-5298
-  * CVE-2014-3505
-  * CVE-2014-3506
-  * CVE-2014-3507
-  * CVE-2014-3508
-  * CVE-2014-3509
-  * CVE-2014-3510
-  * CVE-2014-3511
-  * CVE-2014-3512
-  * CVE-2014-5139
+  * upgraded to upstream (1.0.1j)
 
- -- jviktor <jviktor@devel-57>  Wed, 01 Oct 2014 13:25:05 +0200
-
-openssl (1.0.1e-1.syslogng52.3) syslogng52; urgency=medium
-
-  * build correction on windows
-
- -- jviktor <jviktor@devel-57>  Fri, 04 Jul 2014 14:05:26 +0200
-
-openssl (1.0.1e-1.syslogng52.2) syslogng52; urgency=low
-
-  * build openssl with --noexecstack flag on linux
-
- -- Laszlo Budai <Laszlo.Budai@balabit.com>  Thu, 26 Jun 2014 11:14:22 +0200
-
-openssl (1.0.1e-1.syslogng52.1) syslogng52; urgency=low
-
-  * release for syslog-ng-5.2
-
- -- jviktor <jviktor@devel-57>  Fri, 06 Jun 2014 17:22:22 +0200
-
-openssl (1.0.1e-1.syslogng51.1) syslogngdeps51; urgency=low
-
-  * release for syslog-ng-5.1
-
- -- Laszlo Budai <lbudai@balabit.hu>  Tue, 04 Mar 2014 09:47:34 +0100
+ -- Laszlo Budai <lbudai@balabit.hu>  Thu, 30 Oct 2014 14:08:48 +0100
 
 openssl (1.0.1e-1.syslogng50.5) syslogngdeps50; urgency=low
 
