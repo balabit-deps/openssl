@@ -111,3 +111,5 @@ ms/nt.mak
 ms/ntdll.mak
 ms/ssleay32.def
 ms/version32.rc
+b
+smake/*.pyc
