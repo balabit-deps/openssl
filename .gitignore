@@ -78,5 +78,6 @@ Makefile.save
 tags
 TAGS
 
-b
-smake/*.pyc
+sbuild/build
+sbuild/*.pyc
+sbuild.py
