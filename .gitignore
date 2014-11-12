@@ -113,3 +113,6 @@ ms/ssleay32.def
 ms/version32.rc
 b
 smake/*.pyc
+sbuild/build
+sbuild/*.pyc
+sbuild.py
