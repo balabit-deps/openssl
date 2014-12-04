@@ -1,3 +1,9 @@
+openssl (1.0.1e-1.syslogng53.2) syslogng53; urgency=low
+
+  * release for syslog-ng-5.3.0alpha2
+
+ -- jviktor <jviktor@balabit.com>  Thu, 04 Dec 2014 15:57:56 +0100
+
 openssl (1.0.1e-1.syslogng52.4) syslogng52; urgency=medium
 
   * CVE-2014-0160
