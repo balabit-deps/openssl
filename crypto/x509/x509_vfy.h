@@ -452,6 +452,7 @@ void X509_STORE_CTX_cleanup(X509_STORE_CTX *ctx);
 X509_LOOKUP *X509_STORE_add_lookup(X509_STORE *v, X509_LOOKUP_METHOD *m);
 
 X509_LOOKUP_METHOD *X509_LOOKUP_hash_dir(void);
+X509_LOOKUP_METHOD *X509_LOOKUP_hash_dir_old(void);
 X509_LOOKUP_METHOD *X509_LOOKUP_file(void);
 
 int X509_STORE_add_cert(X509_STORE *ctx, X509 *x);
@@ -487,6 +488,9 @@ int X509_LOOKUP_shutdown(X509_LOOKUP *ctx);
 int X509_STORE_load_locations(X509_STORE *ctx,
                               const char *file, const char *dir);
 int X509_STORE_set_default_paths(X509_STORE *ctx);
+int X509_STORE_load_locations_old(X509_STORE *ctx,
+                                  const char *file, const char *dir);
+int X509_STORE_set_default_paths_old(X509_STORE *ctx);
 # endif
 
 int X509_STORE_CTX_get_ex_new_index(long argl, void *argp,
