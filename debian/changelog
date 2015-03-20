@@ -1,3 +1,9 @@
+openssl (1.0.1m-1.syslogng50.10) syslogngdeps50; urgency=medium
+
+  * upgraded to upstream (1.0.1m; sec. advisory [19 March 2015])
+
+ -- jviktor <jviktor@balabit.com>  Fri, 20 Mar 2015 11:40:52 +0100
+
 openssl (1.0.1l-1.syslogng50.10) syslogngdeps50; urgency=low
 
   * upgraded to upstream (1.0.1l; sec. advisory [08 Jan 2015])
