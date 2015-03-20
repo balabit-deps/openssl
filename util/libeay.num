@@ -4314,3 +4314,6 @@ BIO_dgram_sctp_wait_for_dry             4679	EXIST::FUNCTION:SCTP
 BIO_s_datagram_sctp                     4680	EXIST::FUNCTION:DGRAM,SCTP
 BIO_dgram_is_sctp                       4681	EXIST::FUNCTION:SCTP
 BIO_dgram_sctp_notification_cb          4682	EXIST::FUNCTION:SCTP
+X509_LOOKUP_hash_dir_old                4564  EXIST::FUNCTION:
+X509_STORE_set_default_paths_old        4565  EXIST::FUNCTION:STDIO
+X509_STORE_load_locations_old           4566  EXIST::FUNCTION:STDIO
