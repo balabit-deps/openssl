@@ -1,3 +1,9 @@
+openssl (1.0.1p-1.syslogng54.1) syslogng54; urgency=low
+
+  * OpenSSL upgraded to 1.0.1p
+
+ -- Laszlo Budai <Laszlo.Budai@balabit.com>  Fri, 10 Jul 2015 10:55:32 +0200
+
 openssl (1.0.1e-1.syslogng53.4) syslogng53; urgency=low
 
   * OpenSSL upgraded to 1.0.1m
