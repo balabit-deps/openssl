@@ -1,3 +1,9 @@
+openssl (1.0.1r-1.syslogng55.1ubuntu1) syslogng55; urgency=low
+
+  * OpenSSL upgraded to 1.0.1r
+
+ -- jviktor <jviktor@balabit.com>  Mon, 01 Feb 2016 15:55:09 +0100
+
 openssl (1.0.1q-1.syslogng54.1) syslogng55; urgency=low
 
   * OpenSSL upgraded to 1.0.1q
