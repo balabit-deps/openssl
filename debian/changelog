@@ -1,3 +1,9 @@
+openssl (1.0.1s-1.syslogng55.1) syslogng55; urgency=high
+
+  * OpenSSL upgraded to 1.0.1s
+
+ -- jviktor <jviktor@balabit.com>  Thu, 03 Mar 2016 13:22:02 +0100
+
 openssl (1.0.1p-1.syslogng54.1) syslogng54; urgency=low
 
   * OpenSSL upgraded to 1.0.1p
