@@ -1,3 +1,15 @@
+openssl (1.0.2j-1.syslogng60.1) syslong60.1; urgency=medium
+
+  * upgraded to OpenSSL 1.0.2j
+
+ -- jviktor <jviktor@devel57>  Tue, 27 Sep 2016 12:36:30 +0200
+
+openssl (1.0.2h-1.syslogng60.1) syslogng60.1; urgency=medium
+
+  * upgraded to OpenSSL 1.0.2h
+
+ -- lbudai <laszlo.budai@balabit.com>  Tue, 24 May 2016 14:28:25 +0200
+
 openssl (1.0.1e-1.syslogng52.4) syslogng52; urgency=medium
 
   * CVE-2014-0160
