@@ -1,4 +1,4 @@
-openssl (1.0.2j-1.syslogng60.1) syslong60.1; urgency=medium
+opensslopenssl@@_WITH_FIPS@@ (1.0.2j-1.syslogng60.1) syslong60.1; urgency=medium
 
   * upgraded to OpenSSL 1.0.2j
 
