@@ -3,12 +3,12 @@ STAMPDIR=tgz2build/stamps
 
 CONFIGURE_OPTS = --prefix=$(ZBS_PREFIX) no-idea no-mdc2 no-rc5 zlib --openssldir=$(ZBS_PREFIX)/usr --with-zlib-include=$(ZBS_PREFIX)/include --with-zlib-lib=$(ZBS_PREFIX)/lib
 CONFIGURE = ./config shared $(CONFIGURE_OPTS)
-FIPS_OPT =
-FIPS_DIR_OPT =
+
+SOURCE_PACKAGE="openssl@@_WITH_FIPS@@"
 
 MAKEDEPPROG=
 ifneq (,$(findstring linux-,$(ZBS_DIST)))
-ifneq (,$(findstring fips,$(TGZ_BUILD_OPTS)))
+ifneq (,$(findstring fips,$(SOURCE_PACKAGE)))
 	FIPS_OPT = fips
 	FIPS_DIR_OPT = --with-fipsdir=$(ZBS_PREFIX)/openssl-fips-2.0
 endif
@@ -67,6 +67,7 @@ $(STAMPDIR)/stamp-configure: $(STAMPDIR)/stamp-setup
 
 build: $(STAMPDIR)/stamp-build
 $(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
+	echo "AAAAAAAAAAAAAAAAA MAKEDEPPROG: $(MAKEDEPPROG)"
 	$(MAKE) depend $(MAKEDEPPROG)
 	# need to do this way, because we don't have any other way to pass rpath settings, without munging the Configure script.
 	SHARED_LDFLAGS=`sed -n -e 's/^SHARED_LDFLAGS[^=]*=//p' Makefile`; \
