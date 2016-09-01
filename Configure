@@ -1729,14 +1729,12 @@ while (<IN>)
 		s/^AR=\s*/AR= \$\(CROSS_COMPILE\)/;
 		s/^NM=\s*/NM= \$\(CROSS_COMPILE\)/;
 		s/^RANLIB=\s*/RANLIB= \$\(CROSS_COMPILE\)/;
-		s/^RC=\s*/RC= \$\(CROSS_COMPILE\)/;
 		s/^MAKEDEPPROG=.*$/MAKEDEPPROG= \$\(CROSS_COMPILE\)$cc/ if $predefined{__GNUC__} >= 3;
 		}
 	else	{
 		s/^CC=.*$/CC= $cc/;
 		s/^AR=\s*ar/AR= $ar/;
 		s/^RANLIB=.*/RANLIB= $ranlib/;
-		s/^RC=.*/RC= $windres/;
 		s/^MAKEDEPPROG=.*$/MAKEDEPPROG= $cc/ if $predefined{__GNUC__} >= 3;
 		}
 	s/^CFLAG=.*$/CFLAG= $cflags/;
