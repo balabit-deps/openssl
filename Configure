@@ -1743,7 +1743,7 @@ while (<IN>)
 		s/^CC=.*$/CC= $cc/;
 		s/^AR=\s*ar/AR= $ar/;
 		s/^RANLIB=.*/RANLIB= $ranlib/;
-		s/^MAKEDEPPROG=.*$/MAKEDEPPROG= $cc/ if $predefined{__GNUC__} >= 3;
+		s/^MAKEDEPPROG=.*$/MAKEDEPPROG= "gcc"/ if $predefined{__GNUC__} >= 3;
 		}
 	s/^CFLAG=.*$/CFLAG= $cflags/;
 	s/^DEPFLAG=.*$/DEPFLAG=$depflags/;
