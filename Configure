@@ -1731,11 +1731,11 @@ while (<IN>)
 		s/^RANLIB=.*/RANLIB= $ranlib/;
 		if (index($cc, "gcc") != -1)
 			{
-			s/^MAKEDEPPROG=.*$/MAKEDEPPROG= $cc/;
+			s/^MAKEDEPPROG=.*$/MAKEDEPPROG= "gcc"/;
 			}
 		if (index($ecc, "gcc") != -1 || index($ecc, "clang") != -1)
 			{
-			s/^MAKEDEPPROG=.*$/MAKEDEPPROG= $cc/;
+			s/^MAKEDEPPROG=.*$/MAKEDEPPROG= "gcc"/;
 			}
 		}
 	s/^CFLAG=.*$/CFLAG= $cflags/;
