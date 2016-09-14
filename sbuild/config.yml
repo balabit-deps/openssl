@@ -1,0 +1,7 @@
+name: openssl
+builder:
+  name: OpenSSLBuilder
+  configure_options: "shared zlib no-idea no-mdc2 no-rc5 --with-zlib-include=/home/jviktor/work/pe-6.0/install/include  --with-zlib-lib=/home/jviktor/work/pe-6.0/install/lib"
+platform:
+  - linux-glibc2.11/amd64
+  - linux-glibc2.11/i386
