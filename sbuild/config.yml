@@ -2,7 +2,7 @@ name: openssl
 builder:
   name: OpenSSLBuilder
   configure_options: "shared zlib no-idea no-mdc2 no-rc5 --with-zlib-include=@@prefix@@/include  --with-zlib-lib=@@prefix@@/lib"
-platform:
+platforms:
   - aix-6.1/powerpc
   - freebsd-10.1/amd64
   - hpux-11v2/ia64
