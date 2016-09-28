@@ -67,7 +67,6 @@ $(STAMPDIR)/stamp-configure: $(STAMPDIR)/stamp-setup
 
 build: $(STAMPDIR)/stamp-build
 $(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
-	echo "AAAAAAAAAAAAAAAAA MAKEDEPPROG: $(MAKEDEPPROG)"
 	$(MAKE) depend $(MAKEDEPPROG)
 	# need to do this way, because we don't have any other way to pass rpath settings, without munging the Configure script.
 	SHARED_LDFLAGS=`sed -n -e 's/^SHARED_LDFLAGS[^=]*=//p' Makefile`; \
