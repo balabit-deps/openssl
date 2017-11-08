@@ -1,3 +1,9 @@
+openssl@@_WITH_FIPS@@ (1.0.2m-1.syslogng60.1) syslong60; urgency=medium
+
+  * upgraded to OpenSSL 1.0.2m
+
+ -- lbudai <laszlo.budai@balabit.com>  Wed, 08 Nov 2017 15:59:31 +0100
+
 openssl@@_WITH_FIPS@@ (1.0.2k-1.syslogng60.1) syslong60; urgency=medium
 
   * upgraded to OpenSSL 1.0.2k
