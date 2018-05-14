@@ -1,3 +1,9 @@
+openssl@@_WITH_FIPS@@ (1.0.2o-1.syslogng70.1) syslong70; urgency=medium
+
+ * upgraded to OpenSSL 1.0.2o
+
+ -- kokan <peter.kokai@balabit.com> Mon, 14 May 2018 08:44:32 +0100
+
 openssl@@_WITH_FIPS@@ (1.0.2o-1.syslogng60.1) syslong60; urgency=medium
 
   * upgraded to OpenSSL 1.0.2o
