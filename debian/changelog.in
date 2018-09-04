@@ -1,8 +1,8 @@
-openssl@@_WITH_FIPS@@ (1.0.2j-1.syslogng60.1) syslong60.1; urgency=medium
+openssl@@_WITH_FIPS@@ (1.1.0j-1.syslogng70.1) syslong70; urgency=medium
 
-  * upgraded to OpenSSL 1.0.2j
+  * upgraded to OpenSSL 1.1.0j
 
- -- jviktor <jviktor@devel57>  Tue, 27 Sep 2016 12:36:30 +0200
+ -- Laszlo Varady <laszlo.varady@balabit.com>  Mon, 26 Nov 2018 17:45:54 +0100
 
 openssl (1.0.1e-1.syslogng52.4) syslogng52; urgency=medium
 
@@ -197,6 +197,6 @@ openssl-syslog-ng (0.9.8h-1) unstable; urgency=low
 
 openssl-syslog-ng (0.9.8h) unstable; urgency=low
 
-  * Initial tgz2build package. 
+  * Initial tgz2build package.
 
  -- ZorpOS Maintainers <zorpos@balabit.com>  Fri, 18 Jul 2008 15:47:20 +0200
