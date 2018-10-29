@@ -101,7 +101,7 @@ $(STAMPDIR)/stamp-build: $(STAMPDIR)/stamp-configure
 install:  $(STAMPDIR)/stamp-install
 $(STAMPDIR)/stamp-install: $(STAMPDIR)/stamp-build
 	rm -rf $(ZBS_STAGE_DIR)
-	$(MAKE) install INSTALL_PREFIX=$(ZBS_STAGE_DIR)
+	$(MAKE) install DESTDIR=$(ZBS_STAGE_DIR)
 	# On aix, pack the .so -s into the .a files.
 #	if echo $(ZBS_DIST) | grep '^aix-5' >/dev/null 2>&1;then \
 #		rm -f libcrypto.a libssl.a libcrypto.so libssl.so; \
