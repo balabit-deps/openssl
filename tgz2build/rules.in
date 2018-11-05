@@ -61,7 +61,7 @@ $(STAMPDIR)/stamp-configure: $(STAMPDIR)/stamp-setup
 		sed -e 's%^\(AR=\)ar%\1\/usr\/bin\/ar%' Makefile.org > Makefile.org.aix; \
 		mv Makefile.org.aix Makefile.org; \
 	fi
-	$(SHELL) $(CONFIGURE)
+	$(CONFIGURE)
 	touch $@
 
 build: $(STAMPDIR)/stamp-build
