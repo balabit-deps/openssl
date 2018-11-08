@@ -2,6 +2,7 @@ name: openssl
 builder:
   name: OpenSSLBuilder
   configure_options: "shared zlib no-idea no-mdc2 no-rc5 --with-zlib-include=@@prefix@@/include  --with-zlib-lib=@@prefix@@/lib"
+  make_links: True #This option determines if 'make links' call is needed: openssl 1.0.2 requires, 1.1.0 does not
 platforms:
   - aix-6.1/powerpc
   - freebsd-10.1/amd64
