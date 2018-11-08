@@ -23,7 +23,7 @@ Description: Secure Socket Layer (SSL) binary and related cryptographic tools
   o  SSL/TLS Client and Server Tests
   o  Handling of S/MIME signed or encrypted Mail
 
-Package: libssl1.0.0@@_FIPS@@
+Package: libssl@@_FIPS@@
 Section: libs
 Priority: important
 Architecture: any
@@ -42,7 +42,7 @@ Description: SSL development libraries, header files and documentation
  .
  It is part of the OpenSSL implementation of SSL.
 
-Package: libssl1.0.0@@_FIPS@@-dbg
+Package: libssl@@_FIPS@@-dbg
 Section: libs
 Priority: important
 Architecture: any
