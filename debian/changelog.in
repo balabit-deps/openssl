@@ -1,3 +1,9 @@
+openssl@@_WITH_FIPS@@ (1.0.2s-1.syslogng60.1) syslong60; urgency=medium
+
+  * upgraded to OpenSSL 1.0.2s
+
+ -- Gabor Nagy <gabor.nagy@balabit.com>  Wed, 03 Jul 2019 12:40:11 +0200
+
 openssl@@_WITH_FIPS@@ (1.0.2s-1.syslogng70.1) syslong70; urgency=medium
 
   * upgraded to OpenSSL 1.0.2s
