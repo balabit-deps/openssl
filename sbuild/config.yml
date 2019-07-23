@@ -2,6 +2,6 @@ name: openssl
 builder:
   name: OpenSSLBuilder
   configure_options: "shared zlib no-idea no-mdc2 no-rc5 --with-zlib-include=@@prefix@@/include  --with-zlib-lib=@@prefix@@/lib"
-  flags: "no-make-links"
+  flags: "no-make-links no_make_dist"
 platforms:
   - ubuntu-bionic/amd64
