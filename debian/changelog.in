@@ -1,3 +1,15 @@
+openssl@@_WITH_FIPS@@ (1.1.0l-1.syslogng70.2) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.0l
+
+ -- kokan <peter.kokai@quest.com>  Mon, 16 Sep 2019 11:02:34 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.0k-1.syslogng70.2) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.0k
+
+ -- Attila Szakacs <attila.szakacs@quest.com>  Mon, 22 Jul 2019 11:02:34 +0200
+
 openssl@@_WITH_FIPS@@ (1.1.0j-1.syslogng70.1) syslong70; urgency=medium
 
   * upgraded to OpenSSL 1.1.0j
