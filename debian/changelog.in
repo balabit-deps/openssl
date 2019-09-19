@@ -1,8 +1,80 @@
-openssl@@_WITH_FIPS@@ (1.0.2j-1.syslogng60.1) syslong60.1; urgency=medium
+openssl@@_WITH_FIPS@@ (1.1.1m-1.syslogng70.1) syslong70; urgency=medium
 
-  * upgraded to OpenSSL 1.0.2j
+  * upgraded to OpenSSL 1.1.1m
 
- -- jviktor <jviktor@devel57>  Tue, 27 Sep 2016 12:36:30 +0200
+ -- kokan <peter.kokai@quest.com>  Tue, 11 Jan 2022 17:09:08 +0100
+
+openssl@@_WITH_FIPS@@ (1.1.1l-1.syslogng60.1) syslong60; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1l
+
+ -- Laszlo Varady <laszlo.varady@balabit.com>  Fri, 15 Oct 2021 12:08:16 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.1l-1.syslogng70.1) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1l
+
+ -- kokan <peter.kokai@quest.com>  Wed, 25 Aug 2021 17:09:08 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.1k-1.syslogng70.1) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1k
+
+ -- Laszlo Szemere <laszlo.szemere@quest.com>  Mon, 12 Apr 2021 20:09:36 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.1j-1.syslogng70.1) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1j
+
+ -- Laszlo Szemere <laszlo.szemere@quest.com>  Mon, 22 Feb 2021 10:37:25 +0100
+
+openssl@@_WITH_FIPS@@ (1.1.1i-1.syslogng70.1) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1i
+
+ -- Laszlo Szemere <laszlo.szemere@quest.com>  Mon, 08 Feb 2021 10:41:01 +0000
+
+openssl@@_WITH_FIPS@@ (1.1.1i-1.syslogng60.2) syslong60; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1i
+
+ -- Laszlo Szemere <laszlo.szemere@quest.com>  Wed, 06 Jan 2021 20:18:48 +0100
+
+openssl@@_WITH_FIPS@@ (1.1.1h-1.syslogng70.2) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1h
+
+ -- kokan <peter.kokai@quest.com>  Mon, 12 Oct 2020 11:15:00 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.1g-1.syslogng60.2) syslong60; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1g
+
+ -- Attila Szakacs <attila.szakacs@quest.com>  Mon, 20 Jul 2020 10:18:20 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.1g-1.syslogng70.2) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1g
+
+ -- Laszlo Szemere <laszlo.szemere@quest.com>  Wed, 22 Apr 2020 11:33:52 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.0l-1.syslogng70.2) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.0l
+
+ -- kokan <peter.kokai@quest.com>  Mon, 16 Sep 2019 11:02:34 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.0k-1.syslogng70.2) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.0k
+
+ -- Attila Szakacs <attila.szakacs@quest.com>  Mon, 22 Jul 2019 11:02:34 +0200
+
+openssl@@_WITH_FIPS@@ (1.1.0j-1.syslogng70.1) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.0j
+
+ -- Laszlo Varady <laszlo.varady@balabit.com>  Mon, 26 Nov 2018 17:45:54 +0100
 
 openssl (1.0.1e-1.syslogng52.4) syslogng52; urgency=medium
 
@@ -197,6 +269,6 @@ openssl-syslog-ng (0.9.8h-1) unstable; urgency=low
 
 openssl-syslog-ng (0.9.8h) unstable; urgency=low
 
-  * Initial tgz2build package. 
+  * Initial tgz2build package.
 
  -- ZorpOS Maintainers <zorpos@balabit.com>  Fri, 18 Jul 2008 15:47:20 +0200
