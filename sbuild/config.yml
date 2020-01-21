@@ -5,3 +5,4 @@ builder:
   flags: "no-make-links no_make_dist"
 platforms:
   - ubuntu-bionic/amd64
+  - linux-glibc2.11/amd64
