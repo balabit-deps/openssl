@@ -3,4 +3,4 @@ opt/syslog-ng/lib/*/*.so.*.*.*
 opt/syslog-ng/lib/libssl.a
 opt/syslog-ng/lib/libcrypto.a
 opt/syslog-ng/lib/i686/cmov/*.so.*.*.*
-opt/syslog-ng/lib/ssl/engines
+opt/syslog-ng/lib/ssl/engines-1_1
