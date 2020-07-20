@@ -1,3 +1,9 @@
+openssl@@_WITH_FIPS@@ (1.1.1g-1.syslogng60.2) syslong60; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1g
+
+ -- Attila Szakacs <attila.szakacs@quest.com>  Mon, 20 Jul 2020 10:18:20 +0200
+
 openssl@@_WITH_FIPS@@ (1.1.1g-1.syslogng70.2) syslong70; urgency=medium
 
   * upgraded to OpenSSL 1.1.1g
