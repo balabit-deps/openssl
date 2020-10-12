@@ -1,3 +1,7 @@
+openssl@@_WITH_FIPS@@ (1.1.1h-1.syslogng70.2) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1h
+
 openssl@@_WITH_FIPS@@ (1.1.1g-1.syslogng60.2) syslong60; urgency=medium
 
   * upgraded to OpenSSL 1.1.1g
