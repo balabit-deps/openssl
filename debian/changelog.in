@@ -1,3 +1,9 @@
+openssl@@_WITH_FIPS@@ (1.1.1i-1.syslogng70.1) syslong70; urgency=medium
+
+  * upgraded to OpenSSL 1.1.1i
+
+ -- Laszlo Szemere <laszlo.szemere@quest.com>  Mon, 08 Feb 2021 10:41:01 +0000
+
 openssl@@_WITH_FIPS@@ (1.1.1i-1.syslogng60.2) syslong60; urgency=medium
 
   * upgraded to OpenSSL 1.1.1i
