@@ -1,0 +1,26 @@
+source="openssl"
+version=1.1.1q-pe-1
+dependencies=(
+  'zlib' 'zlib-dev'
+)
+
+bootstrap() {
+  # CI workaround (OpenSSL uses $RELEASE)
+  unset RELEASE
+}
+
+build() {
+  ./config shared --prefix="${prefix}" no-idea no-mdc2 no-rc5 zlib --openssldir="${prefix}/usr" \
+    --with-zlib-include="${prefix}/include" --with-zlib-lib="${prefix}/lib"
+
+  make depend
+  make
+}
+
+check() {
+  make test
+}
+
+install() {
+  make DESTDIR="${dest_dir}" install
+}

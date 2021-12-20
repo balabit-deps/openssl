@@ -1,0 +1,9 @@
+opt/syslog-ng/usr/man/man1
+opt/syslog-ng/usr/man/man5
+opt/syslog-ng/usr/man/man7
+opt/syslog-ng/bin
+opt/syslog-ng/lib/ssl/misc
+opt/syslog-ng/lib/ssl/certs
+opt/syslog-ng/lib/ssl/openssl.cnf
+opt/syslog-ng/lib/ssl/private
+opt/syslog-ng/usr/ssl

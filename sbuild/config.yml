@@ -1,0 +1,11 @@
+name: openssl
+builder:
+  name: OpenSSLBuilder
+  configure_options: "shared zlib no-idea no-mdc2 no-rc5 --with-zlib-include=@@prefix@@/include  --with-zlib-lib=@@prefix@@/lib"
+  flags: "no-make-links no_make_dist"
+platforms:
+  - linux-glibc2.11/amd64
+  # PE6 only, don't run these jobs in ZBS for PE7
+  - aix-6.1/powerpc
+  - windows-2012/amd64
+  - windows-2012/i386
