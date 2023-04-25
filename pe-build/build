@@ -1,5 +1,5 @@
 source="openssl"
-version=1.1.1q-pe-1
+version=1.1.1t-pe-1
 dependencies=(
   'zlib' 'zlib-dev'
 )
